@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgis-osgeo
+spec:
+  selector:
+    matchLabels:
+      app: postgis-osgeo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgis-osgeo
+    spec:
+      serviceAccountName: gdsc-controller
+      imagePullSecrets:
+        - name: docker-hub-cred 
+      containers:
+        - name: postgis
+          image: tibben/pg:proxy
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5432
+              name: postgis-proxy
+              protocol: TCP
+          env:
+            - name: LD_LIBRARY_PATH
+              value: /usr/lib/postgresql
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_USER
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_PORT
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_PASSWORD
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - name: data-ceph-pvc
+              mountPath: /data
+        - name: osgeo
+          image: tibben/pg:osgeo
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_USER
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_PORT
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_PASSWORD
+          command: ["/bin/sh"]
+          args: ["-c","tail -F /dev/null"]
+          volumeMounts:
+            - name: data-ceph-pvc
+              mountPath: /data
+            - name: collections-ceph-pvc
+              mountPath: /collections
+            - name: tiles-ceph-pvc
+              mountPath: /tiles
+      volumes:
+        - name: data-ceph-pvc
+          persistentVolumeClaim:
+            claimName: data-ceph
+        - name: collections-ceph-pvc
+          persistentVolumeClaim:
+            claimName: collections-ceph
+        - name: tiles-ceph-pvc
+          persistentVolumeClaim:
+            claimName: tiles-ceph
+        ##
+         # see https://severalnines.com/database-blog/using-kubernetes-deploy-postgresql
+         # for more ideas on volumes and stateful sets
+         ##

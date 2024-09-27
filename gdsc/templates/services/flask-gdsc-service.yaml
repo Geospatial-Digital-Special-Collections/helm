@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-gdsc
+  labels: 
+    app: flask-gdsc
+spec:
+  type: LoadBalancer
+  selector:
+    app: flask-gdsc
+  ports:
+   - name: http
+     port: 5000
+     targetPort: 5000
+     protocol: TCP

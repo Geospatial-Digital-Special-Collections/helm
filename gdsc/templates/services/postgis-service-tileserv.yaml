@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgis-tileserv
+  labels: 
+    app: postgis-tileserv
+spec:
+  type: LoadBalancer
+  selector:
+    app: postgis-tileserv
+  ports:
+   - name: http
+     port: 7800
+     targetPort: 7800
+     protocol: TCP
+   - name: https
+     port: 7801
+     targetPort: 7801
+     protocol: TCP

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-gdsc
+  labels:
+    app: flask-gdsc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-gdsc
+  template:
+    metadata:
+      labels:
+        app: flask-gdsc
+    spec:
+      serviceAccountName: gdsc-controller
+      imagePullSecrets:
+        - name: docker-hub-cred 
+      containers:
+        - name: flask-gdsc
+          image: tibben/pg:repository
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000 
+          command: ["/bin/sh"]
+          args: ["-c","tail -F /dev/null"]
+          #command: ["/bin/sh"]
+          #args: ["-c", "cd /gdsc && uvicorn --port 5000 --reload gdsc:app"]
+

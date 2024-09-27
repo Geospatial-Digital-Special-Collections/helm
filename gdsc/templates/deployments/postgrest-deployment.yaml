@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgrest
+  labels:
+    app: postgrest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgrest
+  template:
+    metadata:
+      labels:
+        app: postgrest
+    spec:
+      serviceAccountName: gdsc-controller
+      containers:
+        - name: postgrest
+          image: postgrest/postgrest
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_PASSWORD
+            - name: PGRST_DB_URI
+              value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgis-proxy/$(POSTGRES_DB)
+            - name: PGRST_OPENAPI_SERVER_PROXY_URI
+              value: http://127.0.0.1:3000
+            - name: PGRST_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: PGRST_JWT_SECRET
+            - name: PGRST_DB_ANON_ROLE
+              value: web_anon
+          ports:
+            - containerPort: 3000 

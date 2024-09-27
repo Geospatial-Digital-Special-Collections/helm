@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: geoblacklight
+  namespace: gdsc
+  labels:
+    app: geoblacklight
+spec:
+  serviceAccountName: gdsc-controller
+  imagePullSecrets:
+    - name: docker-hub-cred
+  containers:
+    - name: geoblacklight
+      image: tibben/pg:geoblacklight
+      ports:
+        - containerPort: 3000 
+        - containerPort: 8983
+      command: ["/bin/sh"]
+      args: ["-c","tail -F /dev/null"]
+      volumeMounts:
+        - name: postgis-ceph-pvc
+          mountPath: /data
+  volumes:
+    - name: postgis-ceph-pvc
+      persistentVolumeClaim:
+        claimName: postgis-ceph

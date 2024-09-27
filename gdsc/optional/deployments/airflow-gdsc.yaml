@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airflow-gdsc
+  namespace: gdsc
+  labels:
+    app: airflow-gdsc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airflow-gdsc
+  template:
+    metadata:
+      labels:
+        app: airflow-gdsc
+    spec:
+      serviceAccountName: gdsc-controller
+      containers:
+        - name: airflow-gdsc
+          image: apache/airflow
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080 
+          command: ["/bin/sh"]
+          args: ["-c","tail -F /dev/null"]
+          volumeMounts:
+            - name: airflow-ceph-pvc
+              mountPath: /opt/airflow
+      securityContext:
+        fsGroup: 50000
+      initContainers:
+        - name: change-ownership-container
+          image: busybox
+          command: ["sh","-c","mkdir -p /opt/airflow && chown -R 50000:50000 /opt/airflow"]
+          securityContext:
+            runAsUser: 0
+            privileged: true
+          volumeMounts:
+            - name: airflow-ceph-pvc
+              mountPath: /opt/airflow
+      volumes:
+        - name: airflow-ceph-pvc
+          persistentVolumeClaim:
+            claimName: airflow-ceph

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgis-vocab
+  namespace: gdsc
+spec:
+  selector:
+    matchLabels:
+      app: postgis-vocab
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: service
+        app: postgis-vocab
+    spec:
+      imagePullSecrets:
+        - name: docker-hub-cred 
+      containers:
+        - name: postgis-node
+          image: tibben/pg:node-amd64
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5432
+              name: postgis-vocab
+              protocol: TCP
+          env:
+            - name: LD_LIBRARY_PATH
+              value: /usr/lib/postgresql
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: pgdata
+          persistentVolumeClaim:
+            claimName: postgis-vocabulary-ceph
+        ##
+         # see https://severalnines.com/database-blog/using-kubernetes-deploy-postgresql
+         # for more ideas on volumes and stateful sets
+         ##

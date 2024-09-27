@@ -1,0 +1,5 @@
+storage: 
+  type: "local"
+  path: "/Users/tibben/Documents/Sync/UMCCS/gdsc/kubernetes/_localdata"
+warning: "none"
+applicationName: gdsc

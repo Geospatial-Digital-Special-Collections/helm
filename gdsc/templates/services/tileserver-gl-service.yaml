@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tileserver-gl
+  labels: 
+    app: tileserver-gl
+spec:
+  type: LoadBalancer
+  selector:
+    app: tileserver-gl
+  ports:
+   - name: http
+     port: 7810
+     targetPort: 7810
+     protocol: TCP

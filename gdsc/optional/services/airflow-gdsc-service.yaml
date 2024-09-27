@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: airflow-gdsc
+  namespace: gdsc
+  labels: 
+    app: airflow-gdsc
+spec:
+  type: LoadBalancer
+  selector:
+    app: airflow-gdsc
+  ports:
+   - name: http
+     port: 8080
+     targetPort: 8080
+     protocol: TCP

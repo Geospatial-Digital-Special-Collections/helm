@@ -1,0 +1,15 @@
+apiVersion: v2
+name: gdsc
+version: 0.1.0
+description: Helm chart to deploy the Geospatial Digital Special Collections (GDSC) assemblage on kubernetes. 
+type: application
+keywords:
+  - Geographic Information Systems
+  - Special Collections
+  - Data Catalog
+  - Data as a Service
+home: https://github.com/Geospatial-Digital-Special-Collections
+maintainers:
+  - name: Timothy Norris
+    email: tibben@ocf.berkeley.edu
+icon: https://avatars.githubusercontent.com/u/152577834?s=400&u=deb69b374f6d611175490479316e4dc56f43b190&v=4

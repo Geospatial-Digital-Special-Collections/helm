@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tileserver-gl
+spec:
+  selector:
+    matchLabels:
+      app: tileserver-gl
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tileserver-gl
+    spec:
+      serviceAccountName: gdsc-controller
+      containers:
+        - name: tileserver-gl
+          image: maptiler/tileserver-gl
+          command: ["/bin/sh"]
+          args: ["-c","tail -F /dev/null"]
+          volumeMounts:
+            - name: tiles-ceph-pvc
+              mountPath: /tiles
+          ports:
+            - containerPort: 7810
+      volumes:
+        - name: tiles-ceph-pvc
+          persistentVolumeClaim:
+            claimName: tiles-ceph

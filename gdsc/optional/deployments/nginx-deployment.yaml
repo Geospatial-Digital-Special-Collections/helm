@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: gdsc
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      serviceAccountName: gdsc-controller
+      containers:
+        - name: nginx
+          image: nginx
+          volumeMounts:
+            - name: tiles-ceph-pvc
+              mountPath: /usr/share/nginx/html/tiles
+          ports:
+          - containerPort: 80
+      volumes:
+        - name: tiles-ceph-pvc
+          persistentVolumeClaim:
+            claimName: tiles-ceph

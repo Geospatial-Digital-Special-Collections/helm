@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tippecanoe
+  namespace: gdsc
+spec:
+  selector:
+    matchLabels:
+      app: tippecanoe
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tippecanoe
+    spec:
+      serviceAccountName: gdsc-controller
+      containers:
+        - name: tippecanoe
+          image: morlov/tippecanoe
+          env:
+            - name: LD_LIBRARY_PATH
+              value: /usr/lib/postgresql
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_USER
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_PORT
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_PASSWORD
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_PASSWORD
+          command: ["/bin/sh"]
+          args: ["-c","tail -F /dev/null"]
+          volumeMounts:
+            - name: data-ceph-pvc
+              mountPath: /data
+            - name: tiles-ceph-pvc
+              mountPath: /tiles
+      volumes:
+        - name: data-ceph-pvc
+          persistentVolumeClaim:
+            claimName: data-ceph
+        - name: tiles-ceph-pvc
+          persistentVolumeClaim:
+            claimName: tiles-ceph

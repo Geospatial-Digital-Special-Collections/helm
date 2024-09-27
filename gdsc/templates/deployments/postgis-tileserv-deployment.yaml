@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgis-tileserv
+  labels:
+    app: postgis-tileserv
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgis-tileserv
+  template:
+    metadata:
+      labels:
+        app: postgis-tileserv
+    spec:
+      serviceAccountName: gdsc-controller
+      containers:
+        - name: postgis-tileserv
+          image: pramsey/pg_tileserv:20240131
+          ports:
+            - containerPort: 7800
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_DB
+            - name: DB_AUTHENTICATOR_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: DB_AUTHENTICATOR_USER
+            - name: DB_AUTHENTICATOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: DB_AUTHENTICATOR_PASSWORD
+            - name: DATABASE_URL
+              value: postgres://$(DB_AUTHENTICATOR_USER):$(DB_AUTHENTICATOR_PASSWORD)@postgis-proxy/$(POSTGRES_DB)
+          volumeMounts:
+            - name: tileserv-config
+              mountPath: /app/assets
+      volumes:
+        - name: tileserv-config
+          persistentVolumeClaim:
+            claimName: tileserv-ceph

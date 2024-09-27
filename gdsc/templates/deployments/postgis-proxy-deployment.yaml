@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgis-proxy
+  labels:
+    app: postgis-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgis-proxy
+  template:
+    metadata:
+      labels:
+        app: postgis-proxy
+    spec:
+      serviceAccountName: gdsc-controller
+      imagePullSecrets:
+        - name: docker-hub-cred 
+      containers:
+        - name: postgis-proxy
+          image: tibben/pg:proxy
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5432
+          env:
+            - name: LD_LIBRARY_PATH
+              value: /usr/lib/postgresql
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_PASSWORD
+            - name: SDE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: SDE_PASSWORD
+            - name: DB_AUTHENTICATOR_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: DB_AUTHENTICATOR_USER
+            - name: DB_AUTHENTICATOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: DB_AUTHENTICATOR_PASSWORD
+          #volumeMounts:
+          #  - name: data-ceph-pvc
+          #    mountPath: /data
+      #volumes:
+      #  - name: data-ceph-pvc
+      #    persistentVolumeClaim:
+      #      claimName: data-ceph

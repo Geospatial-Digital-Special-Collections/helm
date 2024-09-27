@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: datanode
+  namespace: gdsc
+  labels:
+    app: datanode
+spec:
+  ports:
+  - port: 5432
+    name: pgnode
+    protocol: TCP
+  clusterIP: None
+  selector:
+    app: datanode
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: datanode
+  namespace: gdsc
+spec:
+  selector:
+    matchLabels:
+      app: datanode
+  serviceName: datanode
+  replicas: 1
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        role: service
+        app: datanode
+    spec:
+      terminationGracePeriodSeconds: 10
+      imagePullSecrets:
+        - name: docker-hub-cred 
+      containers:
+        - name: datanode
+          image: tibben/pg:node
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5432
+              name: pgnode
+              protocol: TCP
+          env:
+            - name: LD_LIBRARY_PATH
+              value: /usr/lib/postgresql
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: pgdata
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      volumeMode: Filesystem
+      storageClassName: rook-cephfs
+      resources:
+        requests:
+          storage: 1Gi

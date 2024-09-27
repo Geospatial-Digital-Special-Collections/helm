@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: postgis-tiles
+  name: tiles-ceph
+  namespace: gdsc
+spec:
+  storageClassName: rook-cephfs
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests: 20Gi
