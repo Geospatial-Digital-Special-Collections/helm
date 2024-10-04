@@ -3,12 +3,13 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ $.Values.applicationName }}
-  name: {{ $.Values.storage.pvcs.postgis.name }}
+  name: {{ $.Values.storage.pvcs.airflow.name }}
 spec:
   storageClassName: {{ $.Values.storage.class }}
   volumeMode: Filesystem
+  volumeName: {{ $.Values.storage.pvcs.airflow.name }}
   accessModes:
     - ReadWriteOnce
   resources:
-    requests:
-      storage: {{ $.Values.storage.pvcs.postgis.size }}
+    requests: 
+      storage: {{ $.Values.storage.pvcs.airflow.size }}

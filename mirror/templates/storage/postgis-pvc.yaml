@@ -3,12 +3,13 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ $.Values.applicationName }}
-  name: {{ $.Values.storage.pvcs.data.name }}
+  name: {{ $.Values.storage.pvcs.postgis.name }}
 spec:
   storageClassName: {{ $.Values.storage.class }}
   volumeMode: Filesystem
+  volumeName: {{ $.Values.storage.pvcs.postgis.name }}
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: {{ $.Values.storage.pvcs.data.size }}
+      storage: {{ $.Values.storage.pvcs.postgis.size }}

@@ -3,12 +3,13 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ $.Values.applicationName }}
-  name: {{ $.Values.storage.pvcs.airflow.name }}
+  name: {{ $.Values.storage.pvcs.data.name }}
 spec:
   storageClassName: {{ $.Values.storage.class }}
   volumeMode: Filesystem
+  volumeName: {{ $.Values.storage.pvcs.data.name }}
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
-    requests: 
-      storage: {{ $.Values.storage.pvcs.airflow.size }}
+    requests:
+      storage: {{ $.Values.storage.pvcs.data.size }}

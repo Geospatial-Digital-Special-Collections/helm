@@ -1,6 +1,6 @@
 nameSpace: gdsc-mirror
-applicationName: dvmt-gdsc-collection
-collectionName: dvmt
+applicationName: gdsc-collection-mirror
+collectionName: <name>
 pullPolicy: IfNotPresent
 storage: 
   class: "gdsc-mirror-sc"
