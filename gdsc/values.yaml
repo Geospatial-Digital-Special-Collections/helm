@@ -1,5 +1,8 @@
 storage: 
-  type: "local"
-  path: "/Users/tibben/Documents/Sync/UMCCS/gdsc/kubernetes/_localdata"
+  type: "local" # can be one of ["local","ceph","longhorn"]
+  # path to local storage if type: "local"
+  # office PC: "/run/desktop/mnt/host/d/Sync/gitRepos/projects/gdsc/kubernetes/_localdata"
+  # work mac: "/Users/tibben/Documents/Sync/UMCCS/gdsc/kubernetes/_localdata"
+  path: "/run/desktop/mnt/host/d/Sync/gitRepos/projects/gdsc/kubernetes/_localdata"
 warning: "none"
 applicationName: gdsc
