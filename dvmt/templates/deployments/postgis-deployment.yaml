@@ -15,11 +15,9 @@ spec:
         app: postgis-{{ $.Values.collectionName }}
     spec:
       serviceAccountName: {{ $.Values.collectionName }}-controller
-      imagePullSecrets:
-        - name: docker-hub-cred 
       containers:
         - name: postgis-{{ $.Values.collectionName }}
-          image: tibben/pg:proxy
+          image: postgis/postgis:12-3.4
           imagePullPolicy: {{ $.Values.pullPolicy }}
           ports:
             - containerPort: 5432
