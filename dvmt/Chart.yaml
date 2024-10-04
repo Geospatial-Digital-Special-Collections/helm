@@ -1,7 +1,7 @@
 apiVersion: v2
 name: dvmt-gdsc-collection
 version: 0.1.0
-description: Helm chart to deploy the DVMT collectionasa decoupeld mirror from the Geospatial Digital Special Collections (GDSC). 
+description: Helm chart to deploy the DVMT collection as a decoupled mirror from the Geospatial Digital Special Collections (GDSC). 
 type: application
 keywords:
   - Geographic Information Systems

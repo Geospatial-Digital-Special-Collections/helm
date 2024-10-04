@@ -11,6 +11,6 @@ storage:
     postgis:
       name: postgis-data
       size: 10Gi
-    postgis:
+    airflow:
       name: airflow
       size: 20Mi
