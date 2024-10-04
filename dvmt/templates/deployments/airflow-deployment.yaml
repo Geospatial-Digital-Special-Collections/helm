@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airflow-{{ $.Values.collectionName }}
+  labels:
+    app: airflow-{{ $.Values.collectionName }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airflow-{{ $.Values.collectionName }}
+  template:
+    metadata:
+      labels:
+        app: airflow-{{ $.Values.collectionName }}
+    spec:
+      serviceAccountName: {{ $.Values.collectionName }}-controller
+      containers:
+        - name: airflow-{{ $.Values.collectionName }}
+          image: apache/airflow
+          imagePullPolicy: {{ $.Values.pullPolicy }}
+          ports:
+            - containerPort: 8080 
+          command: ["/bin/sh"]
+          args: ["-c","tail -F /dev/null"]
+          volumeMounts:
+            - name: airflow-{{ $.Values.collectionName }}-pvc
+              mountPath: /opt/airflow
+      securityContext:
+        fsGroup: 50000
+      initContainers:
+        - name: change-ownership-container
+          image: busybox
+          command: ["sh","-c","mkdir -p /opt/airflow && chown -R 50000:50000 /opt/airflow"]
+          securityContext:
+            runAsUser: 0
+            privileged: true
+      volumes:
+        - name: airflow-{{ $.Values.collectionName }}-pvc
+          persistentVolumeClaim:
+            claimName: {{ $.Values.storage.pvcs.airflow.name }}

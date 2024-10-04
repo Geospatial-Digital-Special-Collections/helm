@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: airflow-{{ $.Values.collectionName }}
+  labels: 
+    app: airflow-{{ $.Values.collectionName }}
+spec:
+  type: LoadBalancer
+  selector:
+    app: airflow-{{ $.Values.collectionName }}
+  ports:
+   - name: http
+     port: 8080
+     targetPort: 8080
+     protocol: TCP

@@ -1,0 +1,22 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
+
+{{ if and (ne .Values.storage.type "local") (ne .Values.storage.type "ceph") -}}
+WARNING: You have not installed any storage. You must use either 'ceph' or 'local' as:
+
+# for development on local machine
+$ helm install --create-namespace --namespace gdsc <vesion> ./gdsc --set storage.type=local --set storage.path=/absolute/path/to/data
+
+- or -
+
+# on a cluster with ceph installed 
+$ helm install --create-namespace --namespace gdsc <vesion> ./gdsc --set storage.type=ceph
+
+NOTE: the default is: storage=local, see values.yaml to set defaults
+{{ end }}

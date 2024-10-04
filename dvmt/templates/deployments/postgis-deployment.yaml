@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgis-{{ $.Values.collectionName }}
+  labels:
+    app: postgis-{{ $.Values.collectionName }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgis-{{ $.Values.collectionName }}
+  template:
+    metadata:
+      labels:
+        app: postgis-{{ $.Values.collectionName }}
+    spec:
+      serviceAccountName: {{ $.Values.collectionName }}-controller
+      imagePullSecrets:
+        - name: docker-hub-cred 
+      containers:
+        - name: postgis-{{ $.Values.collectionName }}
+          image: tibben/pg:proxy
+          imagePullPolicy: {{ $.Values.pullPolicy }}
+          ports:
+            - containerPort: 5432
+          env:
+            - name: LD_LIBRARY_PATH
+              value: /usr/lib/postgresql
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: POSTGRES_PASSWORD
+            - name: SDE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: SDE_PASSWORD
+            - name: DB_AUTHENTICATOR_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: DB_AUTHENTICATOR_USER
+            - name: DB_AUTHENTICATOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgis
+                  key: DB_AUTHENTICATOR_PASSWORD
+          volumeMounts:
+            - name: postgis-{{ $.Values.collectionName }}-pvc
+              mountPath: /var/lib/postgresql/data
+            - name: data-{{ $.Values.collectionName }}-pvc
+              mountPath: /data
+      volumes:
+        - name: postgis-{{ $.Values.collectionName }}-pvc
+          persistentVolumeClaim:
+            claimName: {{ $.Values.storage.pvcs.postgis.name }}
+        - name: data-{{ $.Values.collectionName }}-pvc
+          persistentVolumeClaim:
+            claimName: {{ $.Values.storage.pvcs.data.name }}

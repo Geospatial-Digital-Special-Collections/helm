@@ -1,0 +1,16 @@
+nameSpace: gdsc-mirror
+applicationName: dvmt-gdsc-collection
+collectionName: dvmt
+pullPolicy: IfNotPresent
+storage: 
+  class: "gdsc-mirror-sc"
+  pvcs:
+    data:
+      name: data-store
+      size: 20Gi
+    postgis:
+      name: postgis-data
+      size: 10Gi
+    postgis:
+      name: airflow
+      size: 20Mi
