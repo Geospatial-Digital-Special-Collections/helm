@@ -7,7 +7,6 @@ metadata:
 spec:
   storageClassName: {{ $.Values.storage.class }}
   volumeMode: Filesystem
-  volumeName: {{ $.Values.storage.pvcs.postgis.name }}
   accessModes:
     - ReadWriteOnce
   resources:
