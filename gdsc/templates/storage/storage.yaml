@@ -1,20 +1,22 @@
-{{- if eq $.Values.storage.type "local" -}}
-{{- if eq (lookup "v1" "StorageClass" "gdsc" "local-storage") nil -}}
-{{ range $path, $_ :=  .Files.Glob  "storage/local/*.yaml" }}
-  {{- $.Files.Get $path }}
-{{ end }}
-{{- end -}}
-{{ range $path, $_ :=  .Files.Glob  "storage/local/volumes/*pv.yaml" }}
-  {{- $.Files.Get $path | replace "__path__" $.Values.storage.path }}
----
-{{ end }}
-{{ range $path, $_ :=  .Files.Glob  "storage/local/claims/*pvc.yaml" }}
-  {{- $.Files.Get $path }}
----
-{{ end }}
-{{- else if eq $.Values.storage.type "ceph" }}
-{{ range $path, $_ :=  .Files.Glob  "storage/ceph/claims/*pvc.yaml" }}
-  {{- $.Files.Get $path }}
----
-{{ end }}
+# local storage for development
+{{- if eq $.Values.storage.class "local-storage" -}}
+  {{- if eq (lookup "v1" "StorageClass" "gdsc" "local-storage") nil -}}
+    {{ range $path, $_ :=  .Files.Glob  "storage/local/*.yaml" }}
+      {{- $.Files.Get $path }}
+    {{ end }}
+  {{- end -}}
+  {{ range $path, $_ :=  .Files.Glob  "storage/local/volumes/*pv.yaml" }}
+    {{- $.Files.Get $path | replace "__path__" $.Values.storage.path }}
+    ---
+  {{ end }}
+  {{ range $path, $_ :=  .Files.Glob  "storage/local/claims/*pvc.yaml" }}
+    {{- $.Files.Get $path }}
+    ---
+  {{ end }}
+# cluster scoped storage
+{{- else }}
+  {{ range $path, $_ :=  .Files.Glob  "storage/cluster/claims/*pvc.yaml" }}
+    {{- $.Files.Get $path }}
+    ---
+  {{ end }}
 {{ end }}
