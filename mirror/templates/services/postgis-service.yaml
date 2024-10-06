@@ -5,10 +5,11 @@ metadata:
   labels: 
     app: postgis-{{ $.Values.collectionName }}
 spec:
-  type: LoadBalancer
+  type: clusterIP
   selector:
     app: postgis-{{ $.Values.collectionName }}
   ports:
-   - port: 5432
+   - name: http-postgis-{{ $.Values.collectionName }}
+     port: 5432
      targetPort: 5432
      protocol: TCP

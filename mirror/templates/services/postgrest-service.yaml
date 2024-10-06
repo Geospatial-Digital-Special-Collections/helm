@@ -5,10 +5,11 @@ metadata:
   labels: 
     app: postgrest-{{ $.Values.collectionName }}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: postgrest-{{ $.Values.collectionName }}
   ports:
-   - port: 3000
+   - name: http-postgrest-{{ $.Values.collectionName }}
+     port: 3000
      targetPort: 3000
      protocol: TCP

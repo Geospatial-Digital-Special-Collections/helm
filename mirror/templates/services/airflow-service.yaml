@@ -5,11 +5,11 @@ metadata:
   labels: 
     app: airflow-{{ $.Values.collectionName }}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: airflow-{{ $.Values.collectionName }}
   ports:
-   - name: http
+   - name: http-airflow-{{ $.Values.collectionName }}
      port: 8080
      targetPort: 8080
      protocol: TCP
