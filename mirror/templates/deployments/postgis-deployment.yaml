@@ -66,7 +66,7 @@ spec:
       volumes:
         - name: postgis-{{ $.Values.collectionName }}-pvc
           persistentVolumeClaim:
-            claimName: {{ $.Values.storage.pvcs.postgis.name }}
+            claimName: {{ $.Values.collectionName }}-{{ $.Values.storage.pvcs.postgis.name }}
         - name: data-{{ $.Values.collectionName }}-pvc
           persistentVolumeClaim:
-            claimName: {{ $.Values.storage.pvcs.data.name }}
+            claimName: {{ $.Values.collectionName }}-{{ $.Values.storage.pvcs.data.name }}

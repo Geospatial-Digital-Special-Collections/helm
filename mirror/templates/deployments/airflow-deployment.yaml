@@ -38,4 +38,4 @@ spec:
       volumes:
         - name: airflow-{{ $.Values.collectionName }}-pvc
           persistentVolumeClaim:
-            claimName: {{ $.Values.storage.pvcs.airflow.name }}
+            claimName: {{ $.Values.collectionName }}-{{ $.Values.storage.pvcs.airflow.name }}
