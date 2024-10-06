@@ -24,6 +24,8 @@ spec:
           env:
             - name: LD_LIBRARY_PATH
               value: /usr/lib/postgresql
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
