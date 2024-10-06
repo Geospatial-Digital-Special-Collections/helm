@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ $.Values.applicationName }}
-  name: {{ $.Values.storage.pvcs.postgis.name }}
+  name: {{ $.Values.collectionName }}-{{ $.Values.storage.pvcs.postgis.name }}
 spec:
   storageClassName: {{ $.Values.storage.class }}
   volumeMode: Filesystem
