@@ -16,7 +16,7 @@ spec:
     spec:
       serviceAccountName: {{ $.Values.collectionName }}-controller
       imagePullSecrets:
-        - name: docker-hub-cred 
+        - name: tibben-docker-hub 
       containers:
         - name: postgis-{{ $.Values.collectionName }}
           image: tibben/pg:proxy
