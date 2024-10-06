@@ -5,7 +5,7 @@ metadata:
   labels: 
     app: postgis-{{ $.Values.collectionName }}
 spec:
-  type: clusterIP
+  type: ClusterIP
   selector:
     app: postgis-{{ $.Values.collectionName }}
   ports:
