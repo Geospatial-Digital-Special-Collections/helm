@@ -14,3 +14,4 @@ storage:
     airflow:
       name: airflow
       size: 20Mi
+airflow.enabled: true
