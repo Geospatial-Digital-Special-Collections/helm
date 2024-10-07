@@ -3,6 +3,10 @@ name: gdsc-collection-mirror
 version: 0.1.0
 description: Helm chart to deploy a collection as a decoupled mirror from the Geospatial Digital Special Collections (GDSC). 
 type: application
+dependencies:
+  - name: airflow
+    version: 1.11.0
+    repository: https://airflow.apache.org
 keywords:
   - Geographic Information Systems
   - Special Collections
