@@ -14,4 +14,14 @@ storage:
     airflow:
       name: airflow
       size: 20Mi
-airflow.enabled: true
+airflow:
+  enabled: true
+  workers:
+    persistence:
+      size: 5Gi # default 100Gi
+  triggerer:
+    persistence:
+      size: 5Gi # default 100Gi
+  redis:
+    persistence:
+      size: 1Gi # default 1Gi

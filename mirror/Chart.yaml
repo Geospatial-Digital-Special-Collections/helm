@@ -7,6 +7,7 @@ dependencies:
   - name: airflow
     version: 1.11.0
     repository: https://airflow.apache.org
+    condition: airflow.enabled
 keywords:
   - Geographic Information Systems
   - Special Collections
