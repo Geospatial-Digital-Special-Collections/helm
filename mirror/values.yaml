@@ -16,12 +16,13 @@ storage:
       size: 20Mi
 airflow:
   enabled: true
-  workers:
-    persistence:
-      size: 5Gi # default 100Gi
-  triggerer:
-    persistence:
-      size: 5Gi # default 100Gi
-  redis:
-    persistence:
-      size: 1Gi # default 1Gi
+# airflow overrides
+workers:
+  persistence:
+    size: 5Gi # default 100Gi
+triggerer:
+  persistence:
+    size: 5Gi # default 100Gi
+redis:
+  persistence:
+    size: 1Gi # default 1Gi
