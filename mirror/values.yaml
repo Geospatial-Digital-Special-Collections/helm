@@ -1,28 +1,28 @@
-nameSpace: gdsc-mirror
 applicationName: gdsc-collection-mirror
-collectionName: <name>
+collectionName: {{ .Release.Name }}
+nameSpace: gdsc-mirror
 pullPolicy: IfNotPresent
-storage: 
-  class: "gdsc-mirror-sc"
+storage:
+  class: longhorn
   pvcs:
     data:
       name: data-store
-      size: 20Gi
+      size: 3Gi
     postgis:
       name: postgis-data
-      size: 10Gi
-    airflow:
-      name: airflow
-      size: 20Mi
+      size: 3Gi
 airflow:
   enabled: true
-# airflow overrides
-workers:
-  persistence:
-    size: 5Gi # default 100Gi
-triggerer:
-  persistence:
-    size: 5Gi # default 100Gi
-redis:
-  persistence:
-    size: 1Gi # default 1Gi
+  redis:
+    persistence:
+      size: 1Gi # default 1Gi
+  triggerer:
+    persistence:
+      size: 5Gi # default 100Gi
+  workers:
+    persistence:
+      size: 5Gi # default 100Gi
+  logs:
+    persistence:
+      size: 1Gi # default 100Gi
+
