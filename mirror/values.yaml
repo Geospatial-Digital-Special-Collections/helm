@@ -17,11 +17,14 @@ airflow:
       size: 1Gi # default 1Gi
   triggerer:
     persistence:
-      size: 5Gi # default 100Gi
+      size: 1Gi # default 100Gi
   workers:
     persistence:
-      size: 5Gi # default 100Gi
+      size: 1Gi # default 100Gi
   logs:
     persistence:
       size: 1Gi # default 100Gi
+  postgresql:
+    persistence:
+      size: 1Gi # default 8Gi
 
