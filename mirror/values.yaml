@@ -24,7 +24,21 @@ airflow:
   logs:
     persistence:
       size: 1Gi # default 100Gi
+  # so airflow doesn't wait for database migration at start
+  createUserJob:
+    useHelmHooks: false
+    applyCustomEnv: false
+  # so airflow doesn't wait for database migration at start
+  migrateDatabaseJob:
+    useHelmHooks: false
+    applyCustomEnv: false
   postgresql:
-    persistence:
-      size: 1Gi # default 8Gi
-
+    primary:
+      persistence:
+        size: 1Gi # default 8Gi
+    readReplicas:
+      persistence:
+        size: 1Gi # default 8Gi
+    backup:
+      persistence:
+        size: 1Gi # default 8Gi
