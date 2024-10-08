@@ -1,5 +1,4 @@
 applicationName: gdsc-collection-mirror
-collectionName: {{ $.Release.Name }}
 nameSpace: gdsc-mirror
 pullPolicy: IfNotPresent
 storage:

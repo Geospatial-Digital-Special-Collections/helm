@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ $.Values.applicationName }}
-  name: {{ $.Values.collectionName }}-{{ $.Values.storage.pvcs.airflow.name }}
+  name: {{ .Release.Name }}-{{ $.Values.storage.pvcs.airflow.name }}
 spec:
   storageClassName: {{ $.Values.storage.class }}
   volumeMode: Filesystem

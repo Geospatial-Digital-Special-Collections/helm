@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: airflow-{{ $.Values.collectionName }}
+  name: airflow-{{ .Release.Name }}
   labels: 
-    app: airflow-{{ $.Values.collectionName }}
+    app: airflow-{{ .Release.Name }}
 spec:
   type: ClusterIP
   selector:
-    app: airflow-{{ $.Values.collectionName }}
+    app: airflow-{{ .Release.Name }}
   ports:
-   - name: http-airflow-{{ $.Values.collectionName }}
+   - name: http-airflow-{{ .Release.Name }}
      port: 8080
      targetPort: 8080
      protocol: TCP

@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: airflow-{{ $.Values.collectionName }}
+  name: airflow-{{ .Release.Name }}
   labels:
-    app: airflow-{{ $.Values.collectionName }}
+    app: airflow-{{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: airflow-{{ $.Values.collectionName }}
+      app: airflow-{{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: airflow-{{ $.Values.collectionName }}
+        app: airflow-{{ .Release.Name }}
     spec:
-      serviceAccountName: {{ $.Values.collectionName }}-controller
+      serviceAccountName: {{ .Release.Name }}-controller
       containers:
-        - name: airflow-{{ $.Values.collectionName }}
+        - name: airflow-{{ .Release.Name }}
           image: apache/airflow
           imagePullPolicy: {{ $.Values.pullPolicy }}
           ports:
@@ -24,7 +24,7 @@ spec:
           command: ["/bin/sh"]
           args: ["-c","tail -F /dev/null"]
           volumeMounts:
-            - name: airflow-{{ $.Values.collectionName }}-pvc
+            - name: airflow-{{ .Release.Name }}-pvc
               mountPath: /opt/airflow
       securityContext:
         fsGroup: 50000
@@ -36,6 +36,6 @@ spec:
             runAsUser: 0
             privileged: true
       volumes:
-        - name: airflow-{{ $.Values.collectionName }}-pvc
+        - name: airflow-{{ .Release.Name }}-pvc
           persistentVolumeClaim:
-            claimName: {{ $.Values.collectionName }}-{{ $.Values.storage.pvcs.airflow.name }}
+            claimName: {{ .Release.Name }}-{{ $.Values.storage.pvcs.airflow.name }}

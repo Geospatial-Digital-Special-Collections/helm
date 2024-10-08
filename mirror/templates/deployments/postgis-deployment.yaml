@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgis-{{ $.Values.collectionName }}
+  name: postgis-{{ .Release.Name }}
   labels:
-    app: postgis-{{ $.Values.collectionName }}
+    app: postgis-{{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgis-{{ $.Values.collectionName }}
+      app: postgis-{{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: postgis-{{ $.Values.collectionName }}
+        app: postgis-{{ .Release.Name }}
     spec:
-      serviceAccountName: {{ $.Values.collectionName }}-controller
+      serviceAccountName: {{ .Release.Name }}-controller
       imagePullSecrets:
         - name: tibben-docker-hub 
       containers:
-        - name: postgis-{{ $.Values.collectionName }}
+        - name: postgis-{{ .Release.Name }}
           image: tibben/pg:proxy
           imagePullPolicy: {{ $.Values.pullPolicy }}
           ports:
@@ -59,14 +59,14 @@ spec:
                   name: postgis
                   key: DB_AUTHENTICATOR_PASSWORD
           volumeMounts:
-            - name: postgis-{{ $.Values.collectionName }}-pvc
+            - name: postgis-{{ .Release.Name }}-pvc
               mountPath: /var/lib/postgresql/data
-            - name: data-{{ $.Values.collectionName }}-pvc
+            - name: data-{{ .Release.Name }}-pvc
               mountPath: /data
       volumes:
-        - name: postgis-{{ $.Values.collectionName }}-pvc
+        - name: postgis-{{ .Release.Name }}-pvc
           persistentVolumeClaim:
-            claimName: {{ $.Values.collectionName }}-{{ $.Values.storage.pvcs.postgis.name }}
-        - name: data-{{ $.Values.collectionName }}-pvc
+            claimName: {{ .Release.Name }}-{{ $.Values.storage.pvcs.postgis.name }}
+        - name: data-{{ .Release.Name }}-pvc
           persistentVolumeClaim:
-            claimName: {{ $.Values.collectionName }}-{{ $.Values.storage.pvcs.data.name }}
+            claimName: {{ .Release.Name }}-{{ $.Values.storage.pvcs.data.name }}
