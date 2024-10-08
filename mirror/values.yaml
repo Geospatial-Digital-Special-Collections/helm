@@ -1,4 +1,6 @@
 applicationName: gdsc-collection-mirror
+collectionName: {{ .Release.Name }}
+ingressBase: &ingressBase https://r4-dev.idsc.miami.edu/
 nameSpace: gdsc-mirror
 pullPolicy: IfNotPresent
 storage:
@@ -12,6 +14,9 @@ storage:
       size: 3Gi
 airflow:
   enabled: true
+  config:
+    webserver:
+      base_url: https://r4-dev.idsc.miami.edu/{{ .Release.Name }}/airflow
   redis:
     persistence:
       size: 1Gi # default 1Gi
