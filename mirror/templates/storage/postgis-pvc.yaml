@@ -5,12 +5,12 @@ metadata:
     helm.sh/resource-policy: keep
   labels:
     app: {{ $.Values.applicationName }}
-  name: {{ .Release.Name }}-{{ $.Values.storage.pvcs.postgis.name }}
+  name: {{ $.Values.postgis.persistence.name }}
 spec:
-  storageClassName: {{ $.Values.storage.class }}
+  storageClassName: {{ $.Values.postgis.persistence.storageClass }}
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ $.Values.storage.pvcs.postgis.size }}
+      storage: {{ $.Values.postgis.persistence.size }}

@@ -3,17 +3,24 @@ collectionName: "{{ .Release.Name }}"
 ingressBase: https://r4-dev.idsc.miami.edu/
 nameSpace: gdsc-mirror
 pullPolicy: IfNotPresent
-storage:
-  class: longhorn
-  pvcs:
-    data:
-      name: data-store
-      size: 3Gi
-    postgis:
-      name: postgis-data
-      size: 3Gi
+dataStore:
+  persistence:
+    name: "{{ .Release.Name }}-data-store"
+    storageClass: 
+    size: 4Gi
+postgis:
+  persistence:
+    name: "{{ .Release.Name }}-postgis-data"
+    storageClass: 
+    size: 6Gi
 airflow:
   enabled: true
+  dags:
+    gitSync:
+      enabled: true
+      repo: git@github.com:Geospatial-Digital-Special-Collections/airflow.git
+      branch: main
+      subPaths: mirror
   config:
     webserver:
       base_url: "https://r4-dev.idsc.miami.edu/{{ .Release.Name }}/airflow"

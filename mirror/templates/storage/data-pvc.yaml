@@ -5,12 +5,12 @@ metadata:
     helm.sh/resource-policy: keep
   labels:
     app: {{ $.Values.applicationName }}
-  name: {{ .Release.Name }}-{{ $.Values.storage.pvcs.data.name }}
+  name: {{ $.Values.dataStore.persistence.name }}
 spec:
-  storageClassName: {{ $.Values.storage.class }}
+  storageClassName: {{ $.Values.dataStore.persistence.storageClass }}
   volumeMode: Filesystem
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: {{ $.Values.storage.pvcs.data.size }}
+      storage: {{ $.Values.dataStore.persistence.size }}
