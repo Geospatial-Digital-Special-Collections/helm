@@ -5,9 +5,9 @@ metadata:
     helm.sh/resource-policy: keep
   labels:
     app: {{ $.Values.applicationName }}
-  name: {{ $.Values.dataStore.persistence.name }}
+  name: {{ .Release.Name }}-data-store
 spec:
-  storageClassName: {{ $.Values.dataStore.persistence.storageClass }}
+  storageClassName: {{ $.Values.dataStore.persistence.storageClassName }}
   volumeMode: Filesystem
   accessModes:
     - ReadWriteMany

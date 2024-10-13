@@ -5,9 +5,9 @@ metadata:
     helm.sh/resource-policy: keep
   labels:
     app: {{ $.Values.applicationName }}
-  name: {{ $.Values.postgis.persistence.name }}
+  name: {{ .Release.Name }}-postgis-data
 spec:
-  storageClassName: {{ $.Values.postgis.persistence.storageClass }}
+  storageClassName: {{ $.Values.postgis.persistence.storageClassName }}
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce

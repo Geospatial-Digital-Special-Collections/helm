@@ -5,13 +5,11 @@ nameSpace: gdsc-mirror
 pullPolicy: IfNotPresent
 dataStore:
   persistence:
-    name: "{{ .Release.Name }}-data-store"
-    storageClass: 
+    storageClassName: gdsc-mirror-sc
     size: 4Gi
 postgis:
   persistence:
-    name: "{{ .Release.Name }}-postgis-data"
-    storageClass: 
+    storageClassName: gdsc-mirror-sc
     size: 6Gi
 airflow:
   enabled: true
@@ -26,15 +24,19 @@ airflow:
       base_url: "https://r4-dev.idsc.miami.edu/{{ .Release.Name }}/airflow"
   redis:
     persistence:
+      storageClassName: gdsc-mirror-sc
       size: 1Gi # default 1Gi
   triggerer:
     persistence:
+      storageClassName: gdsc-mirror-sc
       size: 1Gi # default 100Gi
   workers:
     persistence:
+      storageClassName: gdsc-mirror-sc
       size: 1Gi # default 100Gi
   logs:
     persistence:
+      storageClassName: gdsc-mirror-sc
       size: 1Gi # default 100Gi
   # so airflow doesn't wait for database migration at start
   createUserJob:
@@ -47,10 +49,13 @@ airflow:
   postgresql:
     primary:
       persistence:
+        storageClassName: gdsc-mirror-sc
         size: 1Gi # default 8Gi
     readReplicas:
       persistence:
+        storageClassName: gdsc-mirror-sc
         size: 1Gi # default 8Gi
     backup:
       persistence:
+        storageClassName: gdsc-mirror-sc
         size: 1Gi # default 8Gi
