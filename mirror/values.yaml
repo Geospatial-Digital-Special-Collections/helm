@@ -13,12 +13,14 @@ postgis:
     size: 6Gi
 airflow:
   enabled: true
+  webserverSecretKeySecretName: dvmt-mirror-airflow-webserver-secret
   dags:
     gitSync:
       enabled: true
       repo: git@github.com:Geospatial-Digital-Special-Collections/airflow.git
       branch: main
       subPath: mirror
+      sshKeySecret: ssh-git-secret
   config:
     webserver:
       base_url: "https://r4-dev.idsc.miami.edu/{{ .Release.Name }}/airflow"
