@@ -9,7 +9,7 @@ spec:
   selector:
     app: postgis-{{ .Release.Name }}
   ports:
-   - name: http-postgis-{{ .Release.Name }}
+   - name: postgis-{{ .Release.Name }}
      port: 5432
      targetPort: 5432
      protocol: TCP
