@@ -7,16 +7,16 @@ To learn more about the release, try:
   $ helm status {{ .Release.Name }}
   $ helm get all {{ .Release.Name }}
 
-{{ if and (ne .Values.storage.type "local") (ne .Values.storage.type "ceph") -}}
-WARNING: You have not installed any storage. You must use either 'ceph' or 'local' as:
+{{ if and (ne .Values.storage.class "local-storage") (ne .Values.storage.class "rook-cephfs") -}}
+WARNING: You have not installed any storage. You must use either 'rook-cephfs' or 'local-storage' as:
 
 # for development on local machine
-$ helm install --create-namespace --namespace gdsc <vesion> ./gdsc --set storage.type=local --set storage.path=/absolute/path/to/data
+$ helm install --create-namespace --namespace gdsc <vesion> ./gdsc --set storage.class=local-storage --set storage.path=/absolute/path/to/data
 
 - or -
 
 # on a cluster with ceph installed 
-$ helm install --create-namespace --namespace gdsc <vesion> ./gdsc --set storage.type=ceph
+$ helm install --create-namespace --namespace gdsc <vesion> ./gdsc --set storage.class=rook-cephfs
 
-NOTE: the default is: storage=local, see values.yaml to set defaults
+NOTE: the default is: storage.class=local-storage, see values.yaml to set defaults
 {{ end }}
