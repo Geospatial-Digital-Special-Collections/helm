@@ -13,4 +13,5 @@ questions:
     description: "The base url for the airflow interface." 
     default: "https://.Values.ingress.hostname/.Release.Name/airflow"
     type: string
-    required: true 
+    required: true
+    

@@ -2,11 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Release.Name }}-mirror-ingress
-  annotations:
-    {{- with .Values.ingress.annotations }}
-      {{- toYaml . | nindent 4 }}
-    {{- end }}
 spec:
+  ingressClassName: {{ .Values.ingress.spec.ingressClassName }}
   rules:
     - host: {{ .Values.ingress.hostname }}
       http:
