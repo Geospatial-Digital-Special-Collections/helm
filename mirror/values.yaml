@@ -23,7 +23,7 @@ airflow:
       sshKeySecret: ssh-git-secret
   config:
     webserver:
-      base_url: ingressBase/Release.name/airflow
+      base_url: https://.ingressBase/.Release.name/airflow
   redis:
     persistence:
       storageClassName: gdsc-mirror-sc

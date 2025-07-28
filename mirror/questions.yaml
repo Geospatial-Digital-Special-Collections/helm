@@ -8,7 +8,6 @@ questions:
     default: "sub.domain.tld"
     type: string
     required: true 
-questions:
   - variable: airflow.config.webserver.base_url 
     label: Airflow Webserver URL
     description: "The base url for the airflow interface." 
