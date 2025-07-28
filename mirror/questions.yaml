@@ -1,0 +1,10 @@
+rancher_min_version: 2.3.0
+rancher_max_version: 2.3.99
+
+questions:
+  - variable: ingressBase 
+    label: Ingress Base
+    description: "The qualified domain name for the ingress." 
+    default: "sub.domain.tld"
+    type: string
+    required: true 

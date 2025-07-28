@@ -1,6 +1,6 @@
 applicationName: gdsc-collection-mirror
 collectionName: "{{ .Release.Name }}"
-ingressBase: https://r4-dev.idsc.miami.edu/
+ingressBase: sub.domain.tld
 nameSpace: gdsc-mirror
 pullPolicy: IfNotPresent
 dataStore:
@@ -23,7 +23,7 @@ airflow:
       sshKeySecret: ssh-git-secret
   config:
     webserver:
-      base_url: "https://r4-dev.idsc.miami.edu/{{ .Release.Name }}/airflow"
+      base_url: {{ tpl printf "%s%s/airflow" .Values.ingressBase .Release.Name }}
   redis:
     persistence:
       storageClassName: gdsc-mirror-sc
