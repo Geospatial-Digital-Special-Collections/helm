@@ -26,8 +26,8 @@ spec:
             path: /dvmt/postgrest
             pathType: ImplementationSpecific
 {{- if .Values.ingress.tls }}
-tls:
-  - hosts:
-      - {{ .Values.ingress.hostname }}
-    secretName: r1-dev
+  tls:
+    - hosts:
+        - {{ .Values.ingress.hostname }}
+      secretName: r1-dev
 {{- end }}

@@ -11,6 +11,6 @@ questions:
   - variable: airflow.config.webserver.base_url 
     label: Airflow Webserver URL
     description: "The base url for the airflow interface." 
-    default: "https://.Values.ingress.hostname/.Release.name/airflow"
+    default: "https://.Values.ingress.hostname/.Release.Name/airflow"
     type: string
     required: true 
