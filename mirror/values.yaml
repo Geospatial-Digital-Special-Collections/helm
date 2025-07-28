@@ -1,6 +1,11 @@
 applicationName: gdsc-collection-mirror
 collectionName: "{{ .Release.Name }}"
-ingressBase: sub.domain.tld
+ingress:
+  enabled: true
+  hostname: sub.domain.tld
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+  tls: true
 nameSpace: gdsc-mirror
 pullPolicy: IfNotPresent
 dataStore:
