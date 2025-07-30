@@ -10,7 +10,7 @@ nameSpace: gdsc-mirror
 pullPolicy: IfNotPresent
 dataStore:
   persistence:
-    storageClassName: {{ .Release.Namespace }}-sc
+    storageClassName: "{{ .Release.Namespace }}-sc"
     size: 4Gi
 postgis:
   persistence:
