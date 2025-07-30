@@ -14,7 +14,7 @@ dataStore:
     size: 4Gi
 postgis:
   persistence:
-    storageClassName: {{ .Release.Namespace }}-sc
+    storageClassName: "{{ .Release.Namespace }}-sc"
     size: 6Gi
 airflow:
   enabled: true
@@ -31,19 +31,19 @@ airflow:
       base_url: https://.Values.ingress.hostname/.Release.Name/airflow
   redis:
     persistence:
-      storageClassName: {{ .Release.Namespace }}-sc
+      storageClassName: "{{ .Release.Namespace }}-sc"
       size: 1Gi # default 1Gi
   triggerer:
     persistence:
-      storageClassName: {{ .Release.Namespace }}-sc
+      storageClassName: "{{ .Release.Namespace }}-sc"
       size: 1Gi # default 100Gi
   workers:
     persistence:
-      storageClassName: {{ .Release.Namespace }}-sc
+      storageClassName: "{{ .Release.Namespace }}-sc"
       size: 1Gi # default 100Gi
   logs:
     persistence:
-      storageClassName: {{ .Release.Namespace }}-sc
+      storageClassName: "{{ .Release.Namespace }}-sc"
       size: 1Gi # default 100Gi
   # so airflow doesn't wait for database migration at start
   createUserJob:
@@ -56,13 +56,13 @@ airflow:
   postgresql:
     primary:
       persistence:
-        storageClassName: {{ .Release.Namespace }}-sc
+        storageClassName: "{{ .Release.Namespace }}-sc"
         size: 1Gi # default 8Gi
     readReplicas:
       persistence:
-        storageClassName: {{ .Release.Namespace }}-sc
+        storageClassName: "{{ .Release.Namespace }}-sc"
         size: 1Gi # default 8Gi
     backup:
       persistence:
-        storageClassName: {{ .Release.Namespace }}-sc
+        storageClassName: "{{ .Release.Namespace }}-sc"
         size: 1Gi # default 8Gi
