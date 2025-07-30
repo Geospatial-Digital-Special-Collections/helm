@@ -1,4 +1,4 @@
-{{- if eq $.Values.gdsc.storage.class "local-storage" -}}
+{{- if eq $.Values.gdsc.storage.provisioner "local-storage" -}}
 
 # local storage for development
 {{- if eq (lookup "v1" "StorageClass" "gdsc" "local-storage") nil -}}
