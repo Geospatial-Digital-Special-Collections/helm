@@ -11,11 +11,11 @@ pullPolicy: IfNotPresent
 dataStore:
   persistence:
     storageClassName: gdsc-mirror-sc
-    size: 4Gi
+    size: 1Gi
 postgis:
   persistence:
     storageClassName: gdsc-mirror-sc
-    size: 6Gi
+    size: 1Gi
 airflow:
   enabled: true
   webserverSecretKeySecretName: dvmt-mirror-airflow-webserver-secret

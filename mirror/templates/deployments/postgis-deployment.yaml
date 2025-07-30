@@ -16,7 +16,7 @@ spec:
     spec:
       serviceAccountName: {{ .Release.Name }}-controller
       imagePullSecrets:
-        - name: tibben-docker-hub 
+        - name: docker-hub-cred 
       containers:
         - name: postgis-{{ .Release.Name }}
           image: tibben/pg:proxy
