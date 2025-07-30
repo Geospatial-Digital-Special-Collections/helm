@@ -1,27 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgis-osgeo
+  name: osgeo-{{ .Release.Name }}
 spec:
   selector:
     matchLabels:
-      app: postgis-osgeo
+      app: osgeo-{{ .Release.Name }}
   replicas: 1
   template:
     metadata:
       labels:
-        app: postgis-osgeo
+        app: osgeo-{{ .Release.Name }}
     spec:
-      serviceAccountName: gdsc-controller
+      serviceAccountName: {{ .Release.Name }}-controller
       imagePullSecrets:
         - name: docker-hub-cred 
       containers:
-        - name: postgis
+        - name: osgeo-postgis-{{ .Release.Name }}
           image: tibben/pg:proxy
-          imagePullPolicy: Always
+          imagePullPolicy: {{ $.Values.pullPolicy }}
           ports:
             - containerPort: 5432
-              name: postgis-proxy
               protocol: TCP
           env:
             - name: LD_LIBRARY_PATH
@@ -52,11 +51,11 @@ spec:
                   name: postgis
                   key: POSTGRES_PASSWORD
           volumeMounts:
-            - name: data-ceph-pvc
+            - name: data-pvc
               mountPath: /data
-        - name: osgeo
+        - name: osgeo-osgeo-{{ .Release.Name }}
           image: tibben/pg:osgeo
-          imagePullPolicy: Always
+          imagePullPolicy: {{ $.Values.pullPolicy }}
           env:
             - name: POSTGRES_DB
               valueFrom:
@@ -81,22 +80,44 @@ spec:
           command: ["/bin/sh"]
           args: ["-c","tail -F /dev/null"]
           volumeMounts:
-            - name: data-ceph-pvc
+            - name: data-pvc
               mountPath: /data
-            - name: collections-ceph-pvc
+            - name: collections-pvc
               mountPath: /collections
-            - name: tiles-ceph-pvc
+            - name: tiles-pvc
               mountPath: /tiles
+        - name: osgeo-git-{{ .Release.Name }}
+          image: alpine/git
+          imagePullPolicy: {{ $.Values.pullPolicy }}
+          command: ["/bin/sh"]
+          args: ["-c","tail -F /dev/null"]
+          volumeMounts:
+            - name: data-pvc
+              mountPath: /data
+        - name: osgeo-gdsc-{{ .Release.Name }}
+          image: tibben/pg:gdsc
+          imagePullPolicy: {{ $.Values.pullPolicy }}
+          #command: ["/bin/sh"]
+          #args: ["-c","tail -F /dev/null"]
+          volumeMounts:
+            - name: data-pvc
+              mountPath: /data
+            - name: copernicus-secret
+              readOnly: true
+              mountPath: "/home/gdsc/copernicus"
       volumes:
-        - name: data-ceph-pvc
+        - name: data-pvc
           persistentVolumeClaim:
-            claimName: data-ceph
-        - name: collections-ceph-pvc
+            claimName: {{ .Release.Name }}-data
+        - name: collections-pvc
           persistentVolumeClaim:
-            claimName: collections-ceph
-        - name: tiles-ceph-pvc
+            claimName: {{ .Release.Name }}-collections
+        - name: tiles-pvc
           persistentVolumeClaim:
-            claimName: tiles-ceph
+            claimName: {{ .Release.Name }}-tiles
+        - name: copernicus-secret
+          secret:
+            secretName: copernicus
         ##
          # see https://severalnines.com/database-blog/using-kubernetes-deploy-postgresql
          # for more ideas on volumes and stateful sets

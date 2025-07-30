@@ -1,12 +1,88 @@
-storage: 
-  class: "local-storage" # can be one of ["local-storage","rook-cephfs","longhorn"]
-  # path to local storage if type: "local"
-  # office PC: "/run/desktop/mnt/host/d/Sync/gitRepos/projects/gdsc/kubernetes/_localdata"
-  # work mac: "/Users/tibben/Documents/Sync/UMCCS/gdsc/kubernetes/_localdata"
-  path: "/Users/tibben/Documents/Sync/UMCCS/gdsc/kubernetes/_localdata"
-  pvcs:
-    data:
-      name: data-store
-      size: 120Gi
-warning: "none"
 applicationName: gdsc
+ingress:
+  enabled: true
+  hostname: sub.domain.tld
+  spec:
+    ingressClassName: "nginx"
+  tls: true
+nameSpace: gdsc
+pullPolicy: IfNotPresent
+gdsc:
+  storage: 
+    # provisioner: can be one of [local-storage,rook-cephfs,default:longhorn]
+    provisioner: longhorn 
+    # path to local storage if provisioner: "local-storage"
+    # office PC: "/run/desktop/mnt/host/d/Sync/gitRepos/projects/gdsc/kubernetes/_localdata"
+    # work mac: "/Users/tibben/Documents/Sync/UMCCS/gdsc/kubernetes/_localdata"
+    local-path: "/Users/tibben/Documents/Sync/UMCCS/gdsc/kubernetes/_localdata"
+    data:
+      persistence:
+        size: 10Gi
+    postgis:
+      persistence:
+        size: 500Mi
+    collections:
+      persistence:
+        size: 10Mi
+    solr:
+      persistence:
+        size: 100Mi
+    tiles:
+      persistence:
+        size: 10Gi
+    tileserv:
+      persistence:
+        size: 1Mi
+    ohdsiVocabulary:
+      persistence:
+        size: 100Mi
+airflow:
+  enabled: true
+  webserverSecretKeySecretName: dvmt-mirror-airflow-webserver-secret
+  dags:
+    gitSync:
+      enabled: true
+      repo: git@github.com:Geospatial-Digital-Special-Collections/airflow.git
+      branch: main
+      subPath: mirror
+      sshKeySecret: ssh-git-secret
+  config:
+    webserver:
+      base_url: https://.Values.ingress.hostname/.Release.Name/airflow
+  redis:
+    persistence:
+      storageClassName: "{{ .Release.Namespace }}-sc"
+      size: 1Gi # default 1Gi
+  triggerer:
+    persistence:
+      storageClassName: "{{ .Release.Namespace }}-sc"
+      size: 1Gi # default 100Gi
+  workers:
+    persistence:
+      storageClassName: "{{ .Release.Namespace }}-sc"
+      size: 1Gi # default 100Gi
+  logs:
+    persistence:
+      storageClassName: "{{ .Release.Namespace }}-sc"
+      size: 1Gi # default 100Gi
+  # so airflow doesn't wait for database migration at start
+  createUserJob:
+    useHelmHooks: false
+    applyCustomEnv: false
+  # so airflow doesn't wait for database migration at start
+  migrateDatabaseJob:
+    useHelmHooks: false
+    applyCustomEnv: false
+  postgresql:
+    primary:
+      persistence:
+        storageClassName: "{{ .Release.Namespace }}-sc"
+        size: 1Gi # default 8Gi
+    readReplicas:
+      persistence:
+        storageClassName: "{{ .Release.Namespace }}-sc"
+        size: 1Gi # default 8Gi
+    backup:
+      persistence:
+        storageClassName: "{{ .Release.Namespace }}-sc"
+        size: 1Gi # default 8Gi

@@ -1,0 +1,40 @@
+rancher_min_version: 2.3.0
+rancher_max_version: 2.3.99
+
+questions:
+  - variable: ingress.hostname 
+    label: Ingress Hostname
+    description: "The qualified domain name for the ingress." 
+    default: "sub.domain.tld"
+    type: string
+    required: true 
+    group: ingress
+  - variable: airflow.config.webserver.base_url 
+    label: Airflow Webserver URL
+    description: "The base url for the airflow interface." 
+    default: "https://.Values.ingress.hostname/.Release.Name/airflow"
+    type: string
+    required: true
+    group: ingress
+  - variable: gdsc.storage.provisioner
+    label: Storage Provisioner
+    description: "The type of storage provisioner for this installation."
+    default: longhorn
+    type: enum
+    options:
+    - "local-storage"
+    - "rook-ceph"
+    - "longhorn"
+    required: true
+    show_subquestion_if: "local-storage"
+    group: storage
+    subquestions:
+    - variable: gdsc.storage.local-path
+      label: Path to Local Persistent Storage"
+      description: | 
+        The absolute path to the local persistent storage.
+        mac: <absolute path to>/_localdata
+        pc: /run/desktop/mnt/host/<drive letter>/<absolute path to>/_localdata
+      type: string
+      required: true
+    

@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgis-tileserv
+  name: tileserv-{{ .Release.Name }}
   labels:
-    app: postgis-tileserv
+    app: tileserv-{{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgis-tileserv
+      app: tileserv-{{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: postgis-tileserv
+        app: tileserv-{{ .Release.Name }}
     spec:
-      serviceAccountName: gdsc-controller
+      serviceAccountName: {{ .Release.Name }}-controller
       containers:
-        - name: postgis-tileserv
+        - name: tileserv-{{ .Release.Name }}
           image: pramsey/pg_tileserv:20240131
           ports:
             - containerPort: 7800
@@ -39,9 +39,9 @@ spec:
             - name: DATABASE_URL
               value: postgres://$(DB_AUTHENTICATOR_USER):$(DB_AUTHENTICATOR_PASSWORD)@postgis-proxy/$(POSTGRES_DB)
           volumeMounts:
-            - name: tileserv-config
+            - name: tileserv-assets
               mountPath: /app/assets
       volumes:
-        - name: tileserv-config
+        - name: tileserv-assets
           persistentVolumeClaim:
-            claimName: tileserv-ceph
+            claimName: {{ .Release.Name }}-tileserv

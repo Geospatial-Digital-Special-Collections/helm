@@ -7,6 +7,6 @@ roleRef:
   kind: Role
   name: {{ .Release.Name }}-role
 subjects:
-- namespace: gdsc 
+- namespace: {{ .Release.Namespace }}
   kind: ServiceAccount
   name: {{ .Release.Name }}-controller

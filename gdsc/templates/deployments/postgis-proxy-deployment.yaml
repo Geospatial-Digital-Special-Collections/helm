@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgis-proxy
+  name: postgis-proxy-{{ .Release.Name }}
   labels:
-    app: postgis-proxy
+    app: postgis-proxy-{{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgis-proxy
+      app: postgis-proxy-{{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: postgis-proxy
+        app: postgis-proxy-{{ .Release.Name }}
     spec:
-      serviceAccountName: gdsc-controller
+      serviceAccountName: {{ .Release.Name }}-controller
       imagePullSecrets:
         - name: docker-hub-cred 
       containers:
-        - name: postgis-proxy
+        - name: postgis-proxy-{{ .Release.Name }}
           image: tibben/pg:proxy
-          imagePullPolicy: Always
+          imagePullPolicy: {{ $.Values.pullPolicy }}
           ports:
             - containerPort: 5432
           env:
@@ -57,9 +57,9 @@ spec:
                   name: postgis
                   key: DB_AUTHENTICATOR_PASSWORD
           volumeMounts:
-            - name: postgis-proxy-ceph-pvc
+            - name: postgis-proxy-pvc
               mountPath: /var/lib/postgresql/data
       volumes:
-        - name: postgis-proxy-ceph-pvc
+        - name: postgis-proxy-pvc
           persistentVolumeClaim:
-            claimName: postgis-proxy-ceph
+            claimName: {{ .Release.Name }}-postgis

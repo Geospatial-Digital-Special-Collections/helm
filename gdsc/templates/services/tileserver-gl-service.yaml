@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: tileserver-gl
+  name: tileserver-gl-{{ .Release.Name }}
   labels: 
-    app: tileserver-gl
+    app: tileserver-gl-{{ .Release.Name }}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
-    app: tileserver-gl
+    app: tileserver-gl-{{ .Release.Name }}
   ports:
-   - name: http
+   - name: http-tileserver-gl-{{ .Release.Name }}
      port: 7810
      targetPort: 7810
      protocol: TCP

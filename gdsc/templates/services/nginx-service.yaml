@@ -1,16 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
-  namespace: gdsc
+  name: nginx-{{ .Release.Name }}
   labels: 
-    app: nginx
+    app: nginx-{{ .Release.Name }}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
-    app: nginx
+    app: nginx-{{ .Release.Name }}
   ports:
-   - name: http
+   - name: http-nginx-{{ .Release.Name }}
      port: 5150
      targetPort: 80
      protocol: TCP

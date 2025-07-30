@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: {{ $.Values.applicationName }}
+  name: {{ .Release.Name }}-ohdsi-vocabulary
+  namespace: {{ .Release.Namespace }}
+spec:
+  storageClassName: {{ .Release.Namespace }}-sc
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests: {{ $.Values.gdsc.storage.ohdsiVocabulary.persistence.size }}

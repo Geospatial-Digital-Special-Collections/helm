@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: {{ $.Values.applicationName }}
+  name: {{ .Release.Name }}-tileserv
+  namespace: {{ .Release.Namespace }}
+spec:
+  storageClassName: {{ .Release.Namespace }}-sc
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ $.Values.gdsc.storage.tileserv.persistence.size }}

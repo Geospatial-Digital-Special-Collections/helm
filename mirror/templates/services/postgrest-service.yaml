@@ -9,7 +9,7 @@ spec:
   selector:
     app: postgrest-{{ .Release.Name }}
   ports:
-   - name: http-postgrest-{{ .Release.Name }}
+   - name: postgrest-{{ .Release.Name }}
      port: 3000
      targetPort: 3000
      protocol: TCP

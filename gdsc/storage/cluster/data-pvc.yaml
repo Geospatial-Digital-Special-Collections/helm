@@ -3,12 +3,13 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ $.Values.applicationName }}
-  name: {{ $.Values.storage.pvcs.data.name }}
+  name: {{ .Release.Name }}-data
+  namespace: {{ .Release.Namespace }}
 spec:
-  storageClassName: {{ $.Values.storage.class }}
+  storageClassName: {{ .Release.Namespace }}-sc
   volumeMode: Filesystem
   accessModes:
   - ReadWriteMany
   resources:
     requests:
-      storage: {{ $.Values.storage.pvcs.data.size }}
+      storage: {{ $.Values.gdsc.storage.data.persistence.size }}

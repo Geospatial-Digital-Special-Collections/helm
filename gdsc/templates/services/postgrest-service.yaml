@@ -1,14 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgrest
+  name: postgrest-{{ .Release.Name }}
   labels: 
-    app: postgrest
+    app: postgrest-{{ .Release.Name }}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
-    app: postgrest
+    app: postgrest-{{ .Release.Name }}
   ports:
-   - port: 3000
+   - name: http-postgrest-{{ .Release.Name }}
+     port: 3000
      targetPort: 3000
      protocol: TCP

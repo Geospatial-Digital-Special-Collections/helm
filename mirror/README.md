@@ -1,7 +1,11 @@
 ## GDSC mirror helm/rancher chart  
 
 Install of this chart will:  
-- create a GDSC mirror for one collection  
+- create a GDSC mirror for one collection 
+- the Namespace is: gdsc-mirror
+
+#### Storage Class
+- you will need a storage class: gdsc-mirror-sc
 
 #### Required configuration values  
 - Release.name : name of the mirror (i.e. dvmt)  

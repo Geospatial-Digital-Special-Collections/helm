@@ -1,0 +1,65 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-mirror-ingress
+spec:
+  ingressClassName: {{ .Values.ingress.spec.ingressClassName }}
+  rules:
+    - host: {{ .Values.ingress.hostname }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{ .Release.Name }}-webserver
+                port:
+                  number: 8080
+            path: /{{ .Release.Name }}/airflow
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: postgrest-{{ .Release.Name }}
+                port:
+                  number: 3000
+            path: /{{ .Release.Name }}/postgrest
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: flask-{{ .Release.Name }}
+                port:
+                  number: 5000
+            path: /{{ .Release.Name }}/flask
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: nginx-{{ .Release.Name }}
+                port:
+                  number: 5150
+            path: /{{ .Release.Name }}/nginx
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: tileserv-{{ .Release.Name }}
+                port:
+                  number: 7800
+            path: /{{ .Release.Name }}/tileserv
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: solr-{{ .Release.Name }}
+                port:
+                  number: 8983
+            path: /{{ .Release.Name }}/solr
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: tileserver-gl-{{ .Release.Name }}
+                port:
+                  number: 7810
+            path: /{{ .Release.Name }}/tileserver-gl
+            pathType: ImplementationSpecific
+{{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.hostname }}
+      secretName: r1-dev
+{{- end }}

@@ -5,22 +5,22 @@ metadata:
 spec:
   ingressClassName: {{ .Values.ingress.spec.ingressClassName }}
   rules:
-    - host: {{ .Values.ingress.hostname }}
+    - host: {{ required "A valid hostname as sub.domain.tld is required" .Values.ingress.hostname }}
       http:
         paths:
           - backend:
               service:
-                name: dvmt-webserver
+                name: {{ .Release.Name }}-webserver
                 port:
                   number: 8080
-            path: /dvmt/airflow
+            path: /{{ .Release.Name }}/airflow
             pathType: ImplementationSpecific
           - backend:
               service:
-                name: postgrest-dvmt
+                name: postgrest-{{ .Release.Name }}
                 port:
                   number: 3000
-            path: /dvmt/postgrest
+            path: /{{ .Release.Name }}/postgrest
             pathType: ImplementationSpecific
 {{- if .Values.ingress.tls }}
   tls:

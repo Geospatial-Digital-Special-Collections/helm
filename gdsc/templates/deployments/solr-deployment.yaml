@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: solr
+  name: solr-{{ .Release.Name }}
   labels:
-    app: solr
+    app: solr-{{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: solr
+      app: solr-{{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: solr
+        app: solr-{{ .Release.Name }}
     spec:
-      serviceAccountName: gdsc-controller
+      serviceAccountName: {{ .Release.Name }}-controller
       containers:
-        - name: solr
+        - name: solr-{{ .Release.Name }}
           image: solr
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: {{ $.Values.pullPolicy }}
           env:
             - name: SOLR_HEAP
               value: 1g
@@ -28,19 +28,19 @@ spec:
             requests:
               memory: 2Gi
           volumeMounts:
-            - name: solr-ceph-pvc
+            - name: solr-pvc
               mountPath: /var/solr/data
-            - name: data-ceph-pvc
+            - name: data-pvc
               mountPath: /data
-            - name: collections-ceph-pvc
+            - name: collections-pvc
               mountPath: /collections
       volumes:
-        - name: solr-ceph-pvc
+        - name: solr-pvc
           persistentVolumeClaim:
-            claimName: solr-ceph
-        - name: data-ceph-pvc
+            claimName: {{ .Release.Name }}-solr
+        - name: data-pvc
           persistentVolumeClaim:
-            claimName: data-ceph
-        - name: collections-ceph-pvc
+            claimName: {{ .Release.Name }}-data
+        - name: collections-pvc
           persistentVolumeClaim:
-            claimName: collections-ceph
+            claimName: {{ .Release.Name }}-collections
