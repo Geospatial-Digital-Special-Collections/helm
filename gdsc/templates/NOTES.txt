@@ -7,7 +7,7 @@ To learn more about the release, try:
   $ helm status {{ .Release.Name }}
   $ helm get all {{ .Release.Name }}
 
-{{ if and (ne .Values.storage.class "local-storage") (ne .Values.storage.class "rook-ceph") (ne .Values.storage.class "longhorn") -}}
+{{ if and (ne .Values.gdsc.storage.provisioner "local-storage") (ne .Values.gdsc.storage.provisioner  "rook-ceph") (ne .Values.gdsc.storage.provisioner "longhorn") -}}
 WARNING: You have not installed any storage. You must use either 'rook-ceph', 'local-storage' or 'longhorn' as:
 
 # for development on local machine
