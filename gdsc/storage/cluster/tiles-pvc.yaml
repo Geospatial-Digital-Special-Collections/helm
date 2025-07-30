@@ -6,7 +6,7 @@ metadata:
   name: {{ .Release.Name }}-tiles
   namespace: {{ .Release.Namespace }}
 spec:
-  storageClassName: {{ .Release.Namespace }}-sc
+  storageClassName: {{ .Release.Name }}-sc
   volumeMode: Filesystem
   accessModes:
   - ReadWriteMany

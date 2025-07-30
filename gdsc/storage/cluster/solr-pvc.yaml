@@ -6,7 +6,7 @@ metadata:
   name: {{ .Release.Name }}-solr
   namespace: {{ .Release.Namespace }}
 spec:
-  storageClassName: {{ .Release.Namespace }}-sc
+  storageClassName: {{ .Release.Name }}-sc
   accessModes:
   - ReadWriteOnce
   resources:
