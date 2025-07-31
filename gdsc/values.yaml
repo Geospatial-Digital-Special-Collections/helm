@@ -10,7 +10,7 @@ pullPolicy: IfNotPresent
 gdsc:
   storage: 
     # provisioner: can be one of [local-storage,rook-ceph,default:longhorn]
-    provisioner: longhorn 
+    local: false 
     # path to local storage if provisioner: "local-storage"
     # office PC: "/run/desktop/mnt/host/d/Sync/gitRepos/projects/gdsc/kubernetes/_localdata"
     # work mac: "/Users/tibben/Documents/Sync/UMCCS/gdsc/kubernetes/_localdata"

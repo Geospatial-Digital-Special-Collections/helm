@@ -16,22 +16,17 @@ questions:
     type: string
     required: true
     group: ingress
-  - variable: gdsc.storage.provisioner
-    label: Storage Provisioner
-    description: "The type of storage provisioner for this installation."
-    default: longhorn
-    type: enum
-    options:
-    - local-storage
-    - rook-ceph
-    - longhorn
-    required: true
-    show_subquestion_if: local-storage
+  - variable: gdsc.storage.local
+    label: Local Storage Flag
+    description: "Ckeck this if you want to use local storage on a development machine."
+    default: false
+    type: boolean
+    show_subquestion_if: true
     group: storage
     subquestions:
     - variable: gdsc.storage.local-path
       label: Path to Local Persistent Storage
-      description: |
+      description: |-
         The absolute path to the local persistent storage.  
         mac: <absolute path to>/_localdata  
         pc: /run/desktop/mnt/host/<drive letter>/<absolute path to>/_localdata  
