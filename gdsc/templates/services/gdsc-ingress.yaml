@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}-mirror-ingress
+  name: {{ .Release.Name }}-ingress
 spec:
   ingressClassName: {{ .Values.ingress.spec.ingressClassName }}
   rules:
