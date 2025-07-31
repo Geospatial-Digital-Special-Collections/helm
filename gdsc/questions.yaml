@@ -22,18 +22,18 @@ questions:
     default: longhorn
     type: enum
     options:
-    - "local-storage"
-    - "rook-ceph"
-    - "longhorn"
+    - local-storage
+    - rook-ceph
+    - longhorn
     required: true
-    show_subquestion_if: "local-storage"
+    show_subquestion_if: local-storage
     group: storage
     subquestions:
     - variable: gdsc.storage.local-path
       label: Path to Local Persistent Storage
       description: |
-        The absolute path to the local persistent storage.
-        mac: <absolute path to>/_localdata
-        pc: /run/desktop/mnt/host/<drive letter>/<absolute path to>/_localdata
+        The absolute path to the local persistent storage.  
+        mac: <absolute path to>/_localdata  
+        pc: /run/desktop/mnt/host/<drive letter>/<absolute path to>/_localdata  
       type: string
     
