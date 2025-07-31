@@ -86,6 +86,8 @@ spec:
               mountPath: /collections
             - name: tiles-pvc
               mountPath: /tiles
+            - name: solr-pvc
+              mountPath: /solr
         - name: git
           image: alpine/git
           imagePullPolicy: {{ $.Values.pullPolicy }}
@@ -94,10 +96,10 @@ spec:
           volumeMounts:
             - name: data-pvc
               mountPath: /data
-            - name: tileserv-assets
-              mountPath: /tileserv
-            - name: solr-pvc
-              mountPath: /solr
+#            - name: tileserv-assets
+#              mountPath: /tileserv
+#            - name: solr-pvc
+#              mountPath: /solr
         - name: gdsc
           image: tibben/pg:gdsc
           imagePullPolicy: {{ $.Values.pullPolicy }}
@@ -122,9 +124,9 @@ spec:
         - name: copernicus-secret
           secret:
             secretName: copernicus-secret
-        - name: tileserv-assets
-          persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-tileserv
+#        - name: tileserv-assets
+#          persistentVolumeClaim:
+#            claimName: {{ .Release.Name }}-tileserv
         - name: solr-pvc
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-solr
