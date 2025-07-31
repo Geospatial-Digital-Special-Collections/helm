@@ -86,8 +86,8 @@ spec:
               mountPath: /collections
             - name: tiles-pvc
               mountPath: /tiles
-            - name: solr-pvc
-              mountPath: /solr
+#            - name: solr-pvc
+#              mountPath: /solr
         - name: git
           image: alpine/git
           imagePullPolicy: {{ $.Values.pullPolicy }}
@@ -127,9 +127,9 @@ spec:
 #        - name: tileserv-assets
 #          persistentVolumeClaim:
 #            claimName: {{ .Release.Name }}-tileserv
-        - name: solr-pvc
-          persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-solr
+#        - name: solr-pvc
+#          persistentVolumeClaim:
+#            claimName: {{ .Release.Name }}-solr
         ##
          # see https://severalnines.com/database-blog/using-kubernetes-deploy-postgresql
          # for more ideas on volumes and stateful sets
