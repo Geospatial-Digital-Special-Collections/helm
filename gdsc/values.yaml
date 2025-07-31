@@ -20,7 +20,7 @@ gdsc:
         size: 10Gi
     postgis:
       persistence:
-        size: 500Mi
+        size: 10Gi
     collections:
       persistence:
         size: 10Mi
@@ -44,7 +44,7 @@ airflow:
       enabled: true
       repo: git@github.com:Geospatial-Digital-Special-Collections/airflow.git
       branch: main
-      subPath: mirror
+      subPath: gdsc
       sshKeySecret: ssh-git-secret
   config:
     webserver:
