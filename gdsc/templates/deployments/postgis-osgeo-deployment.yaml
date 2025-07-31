@@ -117,7 +117,7 @@ spec:
             claimName: {{ .Release.Name }}-tiles
         - name: copernicus-secret
           secret:
-            secretName: copernicus
+            secretName: copernicus-secret
         ##
          # see https://severalnines.com/database-blog/using-kubernetes-deploy-postgresql
          # for more ideas on volumes and stateful sets
