@@ -3,10 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   labels:
     app: {{ $.Values.applicationName }}
-  name: {{ $.Release.Name }}-collections
-  namespace: {{ $.Release.Namespace }}
+  name: {{ .Release.Name }}-collections
 spec:
-  storageClassName: {{ $.Release.Name }}-sc
+  storageClassName: {{ .Release.Name }}-sc
   accessModes:
   - ReadWriteMany
   resources:
