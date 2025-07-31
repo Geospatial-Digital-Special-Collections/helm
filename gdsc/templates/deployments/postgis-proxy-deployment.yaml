@@ -56,10 +56,10 @@ spec:
                 secretKeyRef:
                   name: postgis
                   key: DB_AUTHENTICATOR_PASSWORD
-          volumeMounts:
-            - name: postgis-proxy-pvc
-              mountPath: /var/lib/postgresql/data
-      volumes:
-        - name: postgis-proxy-pvc
-          persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-postgis
+#          volumeMounts:
+#            - name: postgis-proxy-pvc
+#              mountPath: /var/lib/postgresql/data
+#      volumes:
+#        - name: postgis-proxy-pvc
+#          persistentVolumeClaim:
+#            claimName: {{ .Release.Name }}-postgis
