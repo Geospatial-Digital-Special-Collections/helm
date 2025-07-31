@@ -7,21 +7,3 @@ To learn more about the release, try:
   $ helm status {{ .Release.Name }}
   $ helm get all {{ .Release.Name }}
 
-{{ if and (ne .Values.gdsc.storage.provisioner "local-storage") (ne .Values.gdsc.storage.provisioner  "rook-ceph") (ne .Values.gdsc.storage.provisioner "longhorn") -}}
-WARNING: You have not installed any storage. You must use either 'rook-ceph', 'local-storage' or 'longhorn' as:
-
-# for development on local machine
-$ helm install --create-namespace --namespace gdsc <version> ./gdsc --set gdsc.storage.provisioner=local-storage --set gdsc.storage.path=/absolute/path/to/data
-
-- or -
-
-# on a cluster with ceph installed 
-$ helm install --create-namespace --namespace gdsc <version> ./gdsc --set gdsc.storage.class=rook-ceph
-
-- or -
-
-# on a cluster with longhorn installed 
-$ helm install --create-namespace --namespace gdsc <version> ./gdsc --set gdsc.storage.class=longhorn
-
-NOTE: the default is: gdsc.storage.class=longhorn, see values.yaml to set defaults
-{{ end }}

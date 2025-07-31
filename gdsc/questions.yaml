@@ -16,12 +16,12 @@ questions:
     type: string
     required: true
     group: ingress
-  - variable: gdsc.storage.provisioner
-    label: Storage Provisioner Flag
+  - variable: gdsc.storage.cluster
+    label: Use Cluster Storage Provisioner
     description: "Uncheck this if you want to use local storage on a development machine."
-    default: false
+    default: true
     type: boolean
-    show_subquestion_if: true
+    show_subquestion_if: false
     group: storage
     subquestions:
     - variable: gdsc.storage.local-path
