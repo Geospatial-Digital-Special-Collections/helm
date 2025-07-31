@@ -38,7 +38,7 @@ gdsc:
         size: 100Mi
 airflow:
   enabled: true
-  webserverSecretKeySecretName: dvmt-mirror-airflow-webserver-secret
+  webserverSecretKeySecretName: gdsc-airflow-webserver-secret
   dags:
     gitSync:
       enabled: true
@@ -74,6 +74,8 @@ airflow:
     useHelmHooks: false
     applyCustomEnv: false
   postgresql:
+    global:
+      storageClass: gdsc-sc
     primary:
       persistence:
         storageClassName: gdsc-sc

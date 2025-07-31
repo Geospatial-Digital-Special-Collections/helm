@@ -18,5 +18,6 @@ Install of this chart will:
 - gdsc secrets: postgis  
 - git secret: ssh-git-secret  
 - coperniucus secret: copernicus-secret
+- the airflow server secret: gdsc-airflow-webserver-secret
 
 see https://github.com/Geospatial-Digital-Special-Collections/helm > gdsc/secrets for exmaples.  

@@ -54,6 +54,8 @@ airflow:
     useHelmHooks: false
     applyCustomEnv: false
   postgresql:
+    global:
+      storageClass: gdsc-mirror-sc
     primary:
       persistence:
         storageClassName: gdsc-mirror-sc
