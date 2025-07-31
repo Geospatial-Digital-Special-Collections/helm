@@ -4,11 +4,11 @@ metadata:
   labels:
     app: {{ $.Values.applicationName }}
   name: {{ .Release.Name }}-ohdsi-vocabulary
-  namespace: {{ .Release.Namespace }}
 spec:
   storageClassName: {{ .Release.Name }}-sc
   volumeMode: Filesystem
   accessModes:
   - ReadWriteMany
   resources:
-    requests: {{ $.Values.gdsc.storage.ohdsiVocabulary.persistence.size }}
+    requests: 
+      storage: {{ $.Values.gdsc.storage.ohdsiVocabulary.persistence.size }}

@@ -4,7 +4,6 @@ metadata:
   labels:
     app: {{ $.Values.applicationName }}
   name: {{ .Release.Name }}-postgis
-  namespace: {{ .Release.Namespace }}
 spec:
   storageClassName: {{ .Release.Name }}-sc
   volumeMode: Filesystem

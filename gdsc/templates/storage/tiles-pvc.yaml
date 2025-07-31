@@ -4,12 +4,12 @@ metadata:
   labels:
     app: {{ $.Values.applicationName }}
   name: {{ .Release.Name }}-tiles
-  namespace: {{ .Release.Namespace }}
 spec:
   storageClassName: {{ .Release.Name }}-sc
   volumeMode: Filesystem
   accessModes:
   - ReadWriteMany
   resources:
-    requests: {{ $.Values.gdsc.storage.solr.persistence.size }}
+    requests: 
+      storage: {{ $.Values.gdsc.storage.solr.persistence.size }}
 

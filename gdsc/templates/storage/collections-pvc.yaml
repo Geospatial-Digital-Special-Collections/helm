@@ -6,6 +6,7 @@ metadata:
   name: {{ .Release.Name }}-collections
 spec:
   storageClassName: {{ .Release.Name }}-sc
+  volumeMode: Filesystem
   accessModes:
   - ReadWriteMany
   resources:

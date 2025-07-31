@@ -4,9 +4,9 @@ metadata:
   labels:
     app: {{ $.Values.applicationName }}
   name: {{ .Release.Name }}-tileserv
-  namespace: {{ .Release.Namespace }}
 spec:
   storageClassName: {{ .Release.Name }}-sc
+  volumeMode: Filesystem
   accessModes:
   - ReadWriteOnce
   resources:
