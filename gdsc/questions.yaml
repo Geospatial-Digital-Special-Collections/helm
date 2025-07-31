@@ -16,9 +16,9 @@ questions:
     type: string
     required: true
     group: ingress
-  - variable: gdsc.storage.local
-    label: Local Storage Flag
-    description: "Ckeck this if you want to use local storage on a development machine."
+  - variable: gdsc.storage.provisioner
+    label: Storage Provisioner Flag
+    description: "Uncheck this if you want to use local storage on a development machine."
     default: false
     type: boolean
     show_subquestion_if: true
@@ -26,9 +26,8 @@ questions:
     subquestions:
     - variable: gdsc.storage.local-path
       label: Path to Local Persistent Storage
-      description: |-
-        The absolute path to the local persistent storage.  
-        mac: <absolute path to>/_localdata  
-        pc: /run/desktop/mnt/host/<drive letter>/<absolute path to>/_localdata  
+      description: "The absolute path to the local persistent storage.\n\
+        mac: <absolute path to>/_localdata\n\
+        pc: /run/desktop/mnt/host/<drive letter>/<absolute path to>/_localdata"
       type: string
     
