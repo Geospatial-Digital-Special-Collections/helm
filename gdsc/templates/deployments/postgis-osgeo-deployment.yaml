@@ -16,7 +16,7 @@ spec:
       imagePullSecrets:
         - name: docker-hub-cred 
       containers:
-        - name: osgeo-postgis-{{ .Release.Name }}
+        - name: postgis
           image: tibben/pg:proxy
           imagePullPolicy: {{ $.Values.pullPolicy }}
           ports:
@@ -53,7 +53,7 @@ spec:
           volumeMounts:
             - name: data-pvc
               mountPath: /data
-        - name: osgeo-osgeo-{{ .Release.Name }}
+        - name: osgeo
           image: tibben/pg:osgeo
           imagePullPolicy: {{ $.Values.pullPolicy }}
           env:
@@ -86,7 +86,7 @@ spec:
               mountPath: /collections
             - name: tiles-pvc
               mountPath: /tiles
-        - name: osgeo-git-{{ .Release.Name }}
+        - name: git
           image: alpine/git
           imagePullPolicy: {{ $.Values.pullPolicy }}
           command: ["/bin/sh"]
@@ -94,7 +94,11 @@ spec:
           volumeMounts:
             - name: data-pvc
               mountPath: /data
-        - name: osgeo-gdsc-{{ .Release.Name }}
+            - name: tileserv-assets
+              mountPath: /tileserv
+            - name: solr-pvc
+              mountPath: /solr
+        - name: gdsc
           image: tibben/pg:gdsc
           imagePullPolicy: {{ $.Values.pullPolicy }}
           #command: ["/bin/sh"]
@@ -118,6 +122,12 @@ spec:
         - name: copernicus-secret
           secret:
             secretName: copernicus-secret
+        - name: tileserv-assets
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-tileserv
+        - name: solr-pvc
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-solr
         ##
          # see https://severalnines.com/database-blog/using-kubernetes-deploy-postgresql
          # for more ideas on volumes and stateful sets
