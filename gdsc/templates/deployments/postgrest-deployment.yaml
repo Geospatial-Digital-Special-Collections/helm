@@ -35,7 +35,7 @@ spec:
                   name: postgis
                   key: POSTGRES_PASSWORD
             - name: PGRST_DB_URI
-              value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgis-proxy/$(POSTGRES_DB)
+              value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@{{ .Release.Name }}-postgis-proxy/$(POSTGRES_DB)
             - name: PGRST_OPENAPI_SERVER_PROXY_URI
               value: http://127.0.0.1:3000
             - name: PGRST_JWT_SECRET

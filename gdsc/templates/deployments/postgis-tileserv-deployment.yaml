@@ -37,7 +37,7 @@ spec:
                   name: postgis
                   key: DB_AUTHENTICATOR_PASSWORD
             - name: DATABASE_URL
-              value: postgres://$(DB_AUTHENTICATOR_USER):$(DB_AUTHENTICATOR_PASSWORD)@postgis-proxy-{{ .Release.Name }}/$(POSTGRES_DB)
+              value: postgres://$(DB_AUTHENTICATOR_USER):$(DB_AUTHENTICATOR_PASSWORD)@{{ .Release.Name }}-postgis-proxy/$(POSTGRES_DB)
           volumeMounts:
             - name: tileserv-assets
               mountPath: /app/assets
