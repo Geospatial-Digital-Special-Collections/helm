@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgrest-{{ .Release.Name }}
+  name: {{ .Release.Name }}-postgrest
   labels:
-    app: postgrest-{{ .Release.Name }}
+    app: {{ .Release.Name }}-postgrest
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgrest-{{ .Release.Name }}
+      app: {{ .Release.Name }}-postgrest
   template:
     metadata:
       labels:
-        app: postgrest-{{ .Release.Name }}
+        app: {{ .Release.Name }}-postgrest
     spec:
       serviceAccountName: {{ .Release.Name }}-controller
       containers:
-        - name: postgrest-{{ .Release.Name }}
+        - name: postgrest
           image: postgrest/postgrest
           env:
             - name: POSTGRES_DB

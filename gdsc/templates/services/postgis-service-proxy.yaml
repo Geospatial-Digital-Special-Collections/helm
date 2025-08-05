@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgis-proxy-{{ .Release.Name }}
+  name: {{ .Release.Name }}-postgis-proxy
   labels: 
-    app: postgis-proxy-{{ .Release.Name }}
+    app: {{ .Release.Name }}-postgis-proxy
 spec:
   type: ClusterIP
   selector:
-    app: postgis-proxy-{{ .Release.Name }}
+    app: {{ .Release.Name }}-postgis-proxy
   ports:
-   - name: http-postgis-proxy-{{ .Release.Name }}
+   - name: http
      port: 5432
      targetPort: 5432
      protocol: TCP

@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgis-proxy-{{ .Release.Name }}
+  name: {{ .Release.Name }}-postgis-proxy
   labels:
-    app: postgis-proxy-{{ .Release.Name }}
+    app: {{ .Release.Name }}-postgis-proxy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgis-proxy-{{ .Release.Name }}
+      app: {{ .Release.Name }}-postgis-proxy
   template:
     metadata:
       labels:
-        app: postgis-proxy-{{ .Release.Name }}
+        app: {{ .Release.Name }}-postgis-proxy
     spec:
       serviceAccountName: {{ .Release.Name }}-controller
       imagePullSecrets:
         - name: docker-hub-cred 
       containers:
-        - name: postgis-proxy-{{ .Release.Name }}
+        - name: {{ .Release.Name }}-postgis-proxy
           image: tibben/pg:proxy
           imagePullPolicy: {{ $.Values.pullPolicy }}
           ports:

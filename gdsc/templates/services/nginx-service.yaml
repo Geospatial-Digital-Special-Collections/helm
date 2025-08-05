@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-{{ .Release.Name }}
+  name: {{ .Release.Name }}-nginx
   labels: 
-    app: nginx-{{ .Release.Name }}
+    app: {{ .Release.Name }}-nginx
 spec:
   type: ClusterIP
   selector:
-    app: nginx-{{ .Release.Name }}
+    app: {{ .Release.Name }}-nginx
   ports:
-   - name: http-nginx-{{ .Release.Name }}
+   - name: http
      port: 5150
      targetPort: 80
      protocol: TCP

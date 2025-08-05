@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: osgeo-{{ .Release.Name }}
+  name: {{ .Release.Name }}-osgeo
 spec:
   selector:
     matchLabels:
-      app: osgeo-{{ .Release.Name }}
+      app: {{ .Release.Name }}-osgeo
   replicas: 1
   template:
     metadata:
       labels:
-        app: osgeo-{{ .Release.Name }}
+        app: {{ .Release.Name }}-osgeo
     spec:
       serviceAccountName: {{ .Release.Name }}-controller
       imagePullSecrets:

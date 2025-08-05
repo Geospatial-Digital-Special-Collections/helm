@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: solr-{{ .Release.Name }}
+  name: {{ .Release.Name }}-solr
   labels:
-    app: solr-{{ .Release.Name }}
+    app: {{ .Release.Name }}-solr
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: solr-{{ .Release.Name }}
+      app: {{ .Release.Name }}-solr
   template:
     metadata:
       labels:
-        app: solr-{{ .Release.Name }}
+        app: {{ .Release.Name }}-solr
     spec:
       serviceAccountName: {{ .Release.Name }}-controller
       containers:
-        - name: solr-{{ .Release.Name }}
+        - name: solr
           image: solr
           imagePullPolicy: {{ $.Values.pullPolicy }}
           env:

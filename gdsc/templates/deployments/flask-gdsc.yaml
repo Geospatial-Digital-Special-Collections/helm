@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-{{ .Release.Name }}
+  name: {{ .Release.Name }}-flask
   namespace: gdsc
   labels:
-    app: flask-{{ .Release.Name }}
+    app: {{ .Release.Name }}-flask
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flask-{{ .Release.Name }}
+      app: {{ .Release.Name }}-flask
   template:
     metadata:
       labels:
-        app: flask-{{ .Release.Name }}
+        app: {{ .Release.Name }}-flask
     spec:
       serviceAccountName: {{ .Release.Name }}-controller
       imagePullSecrets:
         - name: docker-hub-cred 
       containers:
-        - name: flask-{{ .Release.Name }}
+        - name: flask
           image: tibben/pg:repository
           imagePullPolicy: {{ $.Values.pullPolicy }}
           ports:

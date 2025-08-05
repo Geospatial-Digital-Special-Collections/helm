@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tileserv-{{ .Release.Name }}
+  name: {{ .Release.Name }}-tileserv
   labels:
-    app: tileserv-{{ .Release.Name }}
+    app: {{ .Release.Name }}-tileserv
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tileserv-{{ .Release.Name }}
+      app: {{ .Release.Name }}-tileserv
   template:
     metadata:
       labels:
-        app: tileserv-{{ .Release.Name }}
+        app: {{ .Release.Name }}-tileserv
     spec:
       serviceAccountName: {{ .Release.Name }}-controller
       containers:
-        - name: tileserv-{{ .Release.Name }}
+        - name: tileserv
           image: pramsey/pg_tileserv:20240131
           ports:
             - containerPort: 7800

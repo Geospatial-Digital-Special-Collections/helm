@@ -1,7 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}-ingress
+  name: {{ .Release.Name }}-rewrite-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: {{ .Values.ingress.spec.ingressClassName }}
   rules:
@@ -10,52 +13,45 @@ spec:
         paths:
           - backend:
               service:
-                name: {{ .Release.Name }}-webserver
-                port:
-                  number: 8080
-            path: /{{ .Release.Name }}/airflow
-            pathType: ImplementationSpecific
-          - backend:
-              service:
-                name: postgrest-{{ .Release.Name }}
+                name: {{ .Release.Name }}-postgrest
                 port:
                   number: 3000
-            path: /{{ .Release.Name }}/postgrest
+            path: /{{ .Release.Name }}/postgrest(/|$)(.*)
             pathType: ImplementationSpecific
           - backend:
               service:
-                name: flask-{{ .Release.Name }}
+                name: {{ .Release.Name }}-flask
                 port:
                   number: 5000
-            path: /{{ .Release.Name }}/flask
+            path: /{{ .Release.Name }}/flask(/|$)(.*)
             pathType: ImplementationSpecific
           - backend:
               service:
-                name: nginx-{{ .Release.Name }}
+                name: {{ .Release.Name }}-nginx
                 port:
                   number: 5150
-            path: /{{ .Release.Name }}/nginx
+            path: /{{ .Release.Name }}/nginx(/|$)(.*)
             pathType: ImplementationSpecific
           - backend:
               service:
-                name: tileserv-{{ .Release.Name }}
+                name: {{ .Release.Name }}-tileserv
                 port:
                   number: 7800
-            path: /{{ .Release.Name }}/tileserv
+            path: /{{ .Release.Name }}/tileserv(/|$)(.*)
             pathType: ImplementationSpecific
           - backend:
               service:
-                name: solr-{{ .Release.Name }}
+                name: {{ .Release.Name }}-solr
                 port:
                   number: 8983
-            path: /{{ .Release.Name }}/solr
+            path: /{{ .Release.Name }}/solr(/|$)(.*)
             pathType: ImplementationSpecific
           - backend:
               service:
-                name: tileserver-gl-{{ .Release.Name }}
+                name: {{ .Release.Name }}-tileserver-gl
                 port:
                   number: 7810
-            path: /{{ .Release.Name }}/tileserver-gl
+            path: /{{ .Release.Name }}/tileserver-gl(/|$)(.*)
             pathType: ImplementationSpecific
 {{- if .Values.ingress.tls }}
   tls:

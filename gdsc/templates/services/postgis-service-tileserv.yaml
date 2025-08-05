@@ -1,19 +1,19 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: tileserv-{{ .Release.Name }}
+  name: {{ .Release.Name }}-tileserv
   labels: 
-    app: tileserv-{{ .Release.Name }}
+    app: {{ .Release.Name }}-tileserv
 spec:
   type: ClusterIP
   selector:
-    app: tileserv-{{ .Release.Name }}
+    app: {{ .Release.Name }}-tileserv
   ports:
-   - name: http-tileserv-{{ .Release.Name }}
+   - name: http
      port: 7800
      targetPort: 7800
      protocol: TCP
-   - name: https-tileserv-{{ .Release.Name }}
+   - name: https
      port: 7801
      targetPort: 7801
      protocol: TCP

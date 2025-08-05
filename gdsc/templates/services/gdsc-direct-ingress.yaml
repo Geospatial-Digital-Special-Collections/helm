@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-direct-ingress
+spec:
+  ingressClassName: {{ .Values.ingress.spec.ingressClassName }}
+  rules:
+    - host: {{ .Values.ingress.hostname }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{ .Release.Name }}-webserver
+                port:
+                  number: 8080
+            path: /{{ .Release.Name }}/airflow
+            pathType: ImplementationSpecific
+{{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.hostname }}
+      secretName: r1-dev
+{{- end }}

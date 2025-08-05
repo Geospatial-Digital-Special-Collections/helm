@@ -30,4 +30,39 @@ questions:
         mac: <absolute path to>/_localdata\n\
         pc: /run/desktop/mnt/host/<drive letter>/<absolute path to>/_localdata"
       type: string
-    
+  - variable: gdsc.storage.data.persistence.size
+    label: GDSC Data Store Storage Allocation
+    description: "Default datastore allocation" 
+    default: 1Gi
+    type: string
+    group: storage
+  - variable: gdsc.storage.postgis.persistence.size
+    label: GDSC Postgis data Storage Allocation
+    description: "Default postgis allocation" 
+    default: 1Gi
+    type: string
+    group: storage
+  - variable: gdsc.storage.collections.persistence.size
+    label: GDSC Collections Metadata Allocation
+    description: "Default collections metadata allocation" 
+    default: 10Mi
+    type: string
+    group: storage
+  - variable: gdsc.storage.solr.persistence.size
+    label: GDSC Solr Index Allocation
+    description: "Default solr index allocation" 
+    default: 100Mi
+    type: string
+    group: storage
+  - variable: gdsc.storage.tileserv.persistence.size
+    label: GDSC Tileserv Assets Allocation
+    description: "Default tileserv assets allocation" 
+    default: 1Mi
+    type: string
+    group: storage
+  - variable: gdsc.storage.tiles.persistence.size
+    label: GDSC Tiles Allocation
+    description: "Default tiles allocation" 
+    default: 1Gi
+    type: string
+    group: storage
