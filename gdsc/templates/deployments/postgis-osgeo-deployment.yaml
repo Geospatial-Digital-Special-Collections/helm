@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-osgeo
+  annotations:
+    copyConfigLastUpdated: now
 spec:
   selector:
     matchLabels:
@@ -86,6 +88,8 @@ spec:
               mountPath: /collections
             - name: tiles-pvc
               mountPath: /tiles
+            - name: temp-copy-cm
+              mountPath: /temp
 #            - name: solr-pvc
 #              mountPath: /solr
         - name: git
@@ -124,6 +128,9 @@ spec:
         - name: copernicus-secret
           secret:
             secretName: copernicus-secret
+        - name: temp-copy-cm
+          configMap:
+            name: gdsc-temp-copy
 #        - name: tileserv-assets
 #          persistentVolumeClaim:
 #            claimName: {{ .Release.Name }}-tileserv
