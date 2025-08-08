@@ -55,6 +55,8 @@ spec:
           volumeMounts:
             - name: data-pvc
               mountPath: /data
+            - name: temp-copy-cm
+              mountPath: /temp
         - name: osgeo
           image: tibben/pg:osgeo
           imagePullPolicy: {{ $.Values.pullPolicy }}
@@ -100,6 +102,8 @@ spec:
           volumeMounts:
             - name: data-pvc
               mountPath: /data
+            - name: temp-copy-cm
+              mountPath: /temp
 #            - name: tileserv-assets
 #              mountPath: /tileserv
 #            - name: solr-pvc
@@ -112,6 +116,8 @@ spec:
           volumeMounts:
             - name: data-pvc
               mountPath: /data
+            - name: temp-copy-cm
+              mountPath: /temp
             - name: copernicus-secret
               readOnly: true
               mountPath: "/home/gdsc/copernicus"
