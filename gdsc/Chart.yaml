@@ -6,7 +6,7 @@ type: application
 dependencies:
   - alias: airflow
     name: airflow
-    version: 1.11.0
+    version: 1.22.0
     repository: https://airflow.apache.org
     condition: airflow.enabled
 keywords:
