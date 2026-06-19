@@ -9,12 +9,8 @@ nameSpace: gdsc
 pullPolicy: IfNotPresent
 gdsc:
   storage: 
-    # provisioner: can be one of [local-storage,rook-ceph,default:longhorn]
+    provisioner: longhorn # can be one of [local-storage,rook-ceph,default:longhorn]
     cluster: true 
-    # path to local storage if provisioner: "local-storage"
-    # office PC: "/run/desktop/mnt/host/d/Sync/gitRepos/projects/gdsc/kubernetes/_localdata"
-    # work mac: "/Users/tibben/Documents/Sync/UMCCS/gdsc/kubernetes/_localdata"
-    local-path: ""
     data:
       persistence:
         size: 1Gi
@@ -42,10 +38,13 @@ airflow:
   dags:
     gitSync:
       enabled: true
-      repo: git@github.com:Geospatial-Digital-Special-Collections/airflow.git
+      repo: https://github.com/Geospatial-Digital-Special-Collections/airflow.git
       branch: main
+      rev: HEAD
+      depth: 1
       subPath: gdsc
-      sshKeySecret: ssh-git-secret
+      knownHosts: |
+        github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
   config:
     webserver:
       base_url: https://.Values.ingress.hostname/.Release.Name/airflow
@@ -56,35 +55,17 @@ airflow:
   triggerer:
     persistence:
       storageClassName: gdsc-sc
-      size: 1Gi # default 100Gi
+      size: 2Gi # default 100Gi
   workers:
     persistence:
       storageClassName: gdsc-sc
-      size: 1Gi # default 100Gi
+      size: 2Gi # default 100Gi
   logs:
     persistence:
       storageClassName: gdsc-sc
-      size: 1Gi # default 100Gi
-  # so airflow doesn't wait for database migration at start
-  createUserJob:
-    useHelmHooks: false
-    applyCustomEnv: false
-  # so airflow doesn't wait for database migration at start
-  migrateDatabaseJob:
-    useHelmHooks: false
-    applyCustomEnv: false
+      size: 2Gi # default 100Gi
   postgresql:
-    global:
-      storageClass: gdsc-sc
     primary:
       persistence:
         storageClassName: gdsc-sc
-        size: 1Gi # default 8Gi
-    readReplicas:
-      persistence:
-        storageClassName: gdsc-sc
-        size: 1Gi # default 8Gi
-    backup:
-      persistence:
-        storageClassName: gdsc-sc
-        size: 1Gi # default 8Gi
+        size: 2Gi # default 8Gi
