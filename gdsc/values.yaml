@@ -9,7 +9,7 @@ nameSpace: gdsc
 pullPolicy: IfNotPresent
 gdsc:
   storage: 
-    provisioner: longhorn # can be one of [local-storage,rook-ceph,default:longhorn]
+    provisioner: longhorn # can be one of [local-storage,rook-ceph,gdsc-sc,longhorn] default: longhorn
     cluster: true 
     data:
       persistence:
@@ -50,22 +50,22 @@ airflow:
       base_url: https://.Values.ingress.hostname/.Release.Name/airflow
   redis:
     persistence:
-      storageClassName: gdsc-sc
+      storageClassName: longhorn
       size: 1Gi # default 1Gi
   triggerer:
     persistence:
-      storageClassName: gdsc-sc
+      storageClassName: longhorn
       size: 2Gi # default 100Gi
   workers:
     persistence:
-      storageClassName: gdsc-sc
+      storageClassName: longhorn
       size: 2Gi # default 100Gi
   logs:
     persistence:
-      storageClassName: gdsc-sc
+      storageClassName: longhorn
       size: 2Gi # default 100Gi
   postgresql:
     primary:
       persistence:
-        storageClassName: gdsc-sc
+        storageClassName: longhorn
         size: 2Gi # default 8Gi

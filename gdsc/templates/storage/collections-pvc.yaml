@@ -5,7 +5,7 @@ metadata:
     app: {{ $.Values.applicationName }}
   name: {{ .Release.Name }}-collections
 spec:
-  storageClassName: {{ .Release.Name }}-sc
+  storageClassName: {{ $.Values.gdsc.storage.provisioner }}
   volumeMode: Filesystem
   accessModes:
   - ReadWriteMany
