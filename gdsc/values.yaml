@@ -65,9 +65,7 @@ airflow:
       storageClassName: gdsc-sc
       size: 2Gi # default 100Gi
   postgresql:
-    global:
-      defaultStorageClass: gdsc-sc
     primary:
       persistence:
-        storageClassName: gdsc-sc
+        storageClass: gdsc-sc
         size: 2Gi # default 8Gi
