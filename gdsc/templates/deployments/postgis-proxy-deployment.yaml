@@ -18,7 +18,7 @@ spec:
       imagePullSecrets:
         - name: docker-hub-cred 
       containers:
-        - name: {{ .Release.Name }}-postgis-proxy
+        - name: postgis-proxy
           image: tibben/pg:proxy
           imagePullPolicy: {{ $.Values.pullPolicy }}
           ports:
